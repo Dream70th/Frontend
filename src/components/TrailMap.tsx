@@ -1,93 +1,81 @@
 "use client";
 
-import Image from "next/image";
+import { TrailPath } from "@/components/TrailPath";
 import { xPct, yPct } from "@/lib/design-coordinates";
 
+// Pin tips sit on these points (402x874 design canvas): the forest ledge,
+// the campsite tent, the castle gate, and the summit flag.
 export const ZONES = [
-  {
-    slug: "goods",
-    name: "굿즈",
-    dot: { x: 219, y: 531 },
-    label: { x: 115, y: 558, width: 108, height: 43 },
-  },
-  {
-    slug: "church",
-    name: "교회",
-    dot: { x: 309, y: 462 },
-    label: { x: 165, y: 437, width: 108, height: 43 },
-  },
-  {
-    slug: "clothing",
-    name: "의류",
-    dot: { x: 201, y: 365 },
-    label: { x: 210, y: 313, width: 108, height: 43 },
-  },
-  {
-    slug: "experience",
-    name: "체험",
-    dot: { x: 179, y: 271 },
-    label: { x: 62, y: 212, width: 108, height: 43 },
-  },
+  { slug: "goods", name: "굿즈", stage: 1, x: 172, y: 676 },
+  { slug: "church", name: "교회", stage: 2, x: 287, y: 527 },
+  { slug: "clothing", name: "의류", stage: 3, x: 215, y: 352 },
+  // Tip sits above the summit flag (pole y 75~103) so the pin doesn't cover it.
+  { slug: "experience", name: "체험", stage: 4, x: 288, y: 70 },
 ] as const;
 
 export type ZoneSlug = (typeof ZONES)[number]["slug"];
 
-const START_POINT = { x: 115, y: 645 };
-const PEAK_POINT = { x: 282, y: 103 };
+const PIN_WIDTH = 30;
+const PIN_HEIGHT = 40;
 
-function CheckpointDot({
-  x,
-  y,
-  filled,
-}: {
-  x: number;
-  y: number;
-  filled: boolean;
-}) {
-  return (
-    <div
-      className="absolute -translate-x-1/2 -translate-y-1/2"
-      style={{
-        left: xPct(x),
-        top: yPct(y),
-        width: xPct(18),
-        height: yPct(18),
-      }}
-    >
-      <Image
-        src={
-          filled
-            ? "/images/checkpoint-dot-filled.svg"
-            : "/images/checkpoint-dot-outline.svg"
-        }
-        alt=""
-        fill
-        aria-hidden
-      />
-    </div>
-  );
-}
-
-function ZoneLabelButton({
+function StagePin({
   zone,
+  index,
+  isCleared,
+  isSelected,
   onSelect,
 }: {
   zone: (typeof ZONES)[number];
+  index: number;
+  isCleared: boolean;
+  isSelected: boolean;
   onSelect: () => void;
 }) {
   return (
     <button
       type="button"
       onClick={onSelect}
-      className="border-trail-orange absolute flex items-center justify-center rounded-[9px] border bg-white text-[12px] font-bold tracking-[1.44px] text-black"
+      aria-label={`${zone.stage}번 구역 ${zone.name}${isCleared ? " (완료)" : ""}`}
+      aria-pressed={isSelected}
+      className="absolute -translate-x-1/2 -translate-y-full"
       style={{
-        left: xPct(zone.label.x),
-        top: yPct(zone.label.y),
-        width: xPct(zone.label.width),
-        height: yPct(zone.label.height),
+        left: xPct(zone.x),
+        top: yPct(zone.y),
+        width: xPct(PIN_WIDTH),
+        height: yPct(PIN_HEIGHT),
       }}
     >
-      {zone.name}
+      <span
+        className="animate-pin-float block h-full w-full"
+        style={{ animationDelay: `${index * 0.35}s` }}
+      >
+        <svg
+          viewBox="0 0 30 40"
+          className={`h-full w-full origin-bottom drop-shadow-md transition-transform ${
+            isSelected ? "scale-110" : ""
+          }`}
+          style={{ opacity: isCleared ? 1 : 0.75 }}
+        >
+          <path
+            d="M15 39C15 39 28 23.5 28 14A13 13 0 1 0 2 14C2 23.5 15 39 15 39Z"
+            fill={isCleared ? "#FF5E00" : "#8C877C"}
+            stroke="#FFFFFF"
+            strokeWidth="2.5"
+            strokeLinejoin="round"
+          />
+          <text
+            x="15"
+            y="19"
+            textAnchor="middle"
+            fontSize="14"
+            fontWeight="700"
+            fill="#FFFFFF"
+            fontFamily="var(--font-inter, sans-serif)"
+          >
+            {zone.stage}
+          </text>
+        </svg>
+      </span>
     </button>
   );
 }
@@ -95,70 +83,48 @@ function ZoneLabelButton({
 export function TrailMap({
   selectedZone,
   onSelectZone,
+  clearedZones,
 }: {
   selectedZone: ZoneSlug | null;
   onSelectZone: (slug: ZoneSlug | null) => void;
+  /** Zones the visitor has already stamped. Server-owned — comes from
+   *  `get_my_progress` once Phase 2 lands. */
+  clearedZones: readonly ZoneSlug[];
 }) {
-  const visibleZones =
-    selectedZone === null
-      ? ZONES
-      : ZONES.filter((zone) => zone.slug === selectedZone);
-
   return (
     <div className="relative h-full w-full">
-      <Image
-        src="/images/trail-map-bg.png"
-        alt="굿즈, 교회, 의류, 체험 4개 구역을 지나는 트레일 지도"
-        fill
-        priority
-        className="object-cover"
-      />
-
-      <div
-        className="absolute"
-        style={{
-          left: xPct(72.94),
-          top: yPct(109),
-          width: xPct(237.063),
-          height: yPct(531.5),
-        }}
+      <span className="sr-only">
+        굿즈, 교회, 의류, 체험 4개 구역을 지나는 트레일 지도
+      </span>
+      <video
+        className="absolute inset-0 h-full w-full object-cover"
+        style={{ imageRendering: "pixelated" }}
+        poster="/images/trail-map-bg.png"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden
       >
-        <div className="absolute -inset-x-[1.05%] -inset-y-[0.47%]">
-          <Image src="/images/trail-path.svg" alt="" fill aria-hidden />
-        </div>
-      </div>
+        <source src="/images/trail-map-bg.webm" type="video/webm" />
+        <source src="/images/trail-map-bg.mp4" type="video/mp4" />
+      </video>
 
-      <CheckpointDot x={START_POINT.x} y={START_POINT.y} filled />
-      <CheckpointDot x={PEAK_POINT.x} y={PEAK_POINT.y} filled />
+      <TrailPath />
 
-      {ZONES.map((zone) => (
-        <CheckpointDot
-          key={zone.slug}
-          x={zone.dot.x}
-          y={zone.dot.y}
-          filled={selectedZone !== null && selectedZone !== zone.slug}
-        />
-      ))}
-
-      {visibleZones.map((zone) => (
-        <ZoneLabelButton
+      {ZONES.map((zone, index) => (
+        <StagePin
           key={zone.slug}
           zone={zone}
+          index={index}
+          isCleared={clearedZones.includes(zone.slug)}
+          isSelected={selectedZone === zone.slug}
           onSelect={() =>
             onSelectZone(selectedZone === zone.slug ? null : zone.slug)
           }
         />
       ))}
-
-      {selectedZone !== null && (
-        <button
-          type="button"
-          onClick={() => onSelectZone(null)}
-          className="absolute top-4 left-4 rounded-full bg-white/90 px-4 py-2 text-[12px] font-bold text-black shadow"
-        >
-          ← 지도로 돌아가기
-        </button>
-      )}
     </div>
   );
 }

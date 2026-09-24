@@ -13,6 +13,28 @@
   --color-trail-orange: var(--color-trail-orange);
   --color-letterbox: var(--color-letterbox);
   --font-sans: var(--font-inter);
+  --animate-trail-flow: trail-flow 1.1s linear infinite;
+  --animate-pin-float: pin-float 2.6s ease-in-out infinite;
+}
+
+/* Dashes travel along the trail toward the summit (path is drawn bottom-up,
+   so a negative offset moves them forward). One dash period is 20 units. */
+@keyframes trail-flow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+/* Pins hover above their spot on the map. % is relative to the pin's own
+   height (40 design px), so the float scales with the letterboxed frame. */
+@keyframes pin-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-25%);
+  }
 }
 
 body {
