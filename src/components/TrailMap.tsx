@@ -87,8 +87,8 @@ export function TrailMap({
 }: {
   selectedZone: ZoneSlug | null;
   onSelectZone: (slug: ZoneSlug | null) => void;
-  /** Zones the visitor has already stamped. Server-owned — comes from
-   *  `get_my_progress` once Phase 2 lands. */
+  /** Zones the visitor has already stamped. Server-owned — comes from the
+   *  `get_my_progress` RPC; never computed on the client. */
   clearedZones: readonly ZoneSlug[];
 }) {
   return (
