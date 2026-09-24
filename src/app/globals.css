@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+:root {
+  --background: #171512;
+  --foreground: #171717;
+  --color-trail-orange: #ff5e00;
+  --color-letterbox: #171512;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-trail-orange: var(--color-trail-orange);
+  --color-letterbox: var(--color-letterbox);
+  --font-sans: var(--font-inter);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
