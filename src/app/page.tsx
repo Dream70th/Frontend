@@ -18,51 +18,23 @@ export default async function MainMapPage() {
 
   const clearedZones = clearedZonesOf(progress);
 
-  // TEMPORARY — the completion screen is not appearing and the gate below
-  // cannot be read from outside. Remove once we know which half is false.
-  const debug = [
-    `progress=${progress.length}`,
-    `cleared=${clearedZones.length}/${ZONES.length}`,
-    `celebrated=${profile.celebrated}`,
-    `name=${profile.realName === null ? "null" : `"${profile.realName}"`}`,
-    `guide=${profile.seenGuide}`,
-    `depts=${departments.length}`,
-    `entered=${entered}`,
-  ].join(" ");
-
   return (
-    <>
-      <p
-        style={{
-          position: "fixed",
-          left: 0,
-          right: 0,
-          bottom: 0,
-          zIndex: 90,
-          background: "rgba(0,0,0,0.8)",
-          color: "#7CFF9B",
-          font: "600 10px/1.5 ui-monospace, monospace",
-          textAlign: "center",
-          padding: "2px 4px",
-          wordBreak: "break-all",
-        }}
-      >
-        {debug}
-      </p>
-      <MapScreen
-        clearedZones={clearedZones}
-        // The claim refreshes this page, so the fourth stamp lands here first.
-        needsCelebration={
-          clearedZones.length === ZONES.length && !profile.celebrated
-        }
-        // Nothing to pick from means the table is unreachable; sending someone
-        // to an unanswerable form would trap them on it.
-        needsSignup={!hasSignedUp(profile) && departments.length > 0}
-        needsGuide={!profile.seenGuide}
-        displayName={profile.displayName}
-        departments={departments}
-        hasEnteredRaffle={entered}
-      />
-    </>
+    <MapScreen
+      clearedZones={clearedZones}
+      // The claim refreshes this page, so the fourth stamp lands here first.
+      // ZONES comes from lib rather than TrailMap: a server component that
+      // imports a value out of a "use client" module is handed a client
+      // reference instead, and this read silently came back as 0.
+      needsCelebration={
+        clearedZones.length === ZONES.length && !profile.celebrated
+      }
+      // Nothing to pick from means the table is unreachable; sending someone
+      // to an unanswerable form would trap them on it.
+      needsSignup={!hasSignedUp(profile) && departments.length > 0}
+      needsGuide={!profile.seenGuide}
+      displayName={profile.displayName}
+      departments={departments}
+      hasEnteredRaffle={entered}
+    />
   );
 }
