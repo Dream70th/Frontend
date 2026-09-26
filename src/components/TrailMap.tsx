@@ -1,6 +1,7 @@
 "use client";
 
 import { TrailPath } from "@/components/TrailPath";
+import { TrailWalker } from "@/components/TrailWalker";
 import { xPct, yPct } from "@/lib/design-coordinates";
 
 // Pin tips sit on these points (402x874 design canvas): the forest ledge,
@@ -90,13 +91,19 @@ export function TrailMap({
   selectedZone,
   onSelectZone,
   clearedZones,
+  characterZone,
 }: {
   selectedZone: ZoneSlug | null;
   onSelectZone: (slug: ZoneSlug | null) => void;
+  /** Zone the pair is standing at, or null for the trailhead. */
+  characterZone: ZoneSlug | null;
   /** Zones the visitor has already stamped. Server-owned — comes from the
    *  `get_my_progress` RPC; never computed on the client. */
   clearedZones: readonly ZoneSlug[];
 }) {
+  const characterAt =
+    ZONES.find((candidate) => candidate.slug === characterZone) ?? null;
+
   return (
     <div className="relative h-full w-full">
       <span className="sr-only">
@@ -119,6 +126,8 @@ export function TrailMap({
 
       <TrailPath />
 
+      <TrailWalker target={characterAt} />
+
       {ZONES.map((zone, index) => (
         <StagePin
           key={zone.slug}
@@ -126,9 +135,7 @@ export function TrailMap({
           index={index}
           isCleared={clearedZones.includes(zone.slug)}
           isSelected={selectedZone === zone.slug}
-          onSelect={() =>
-            onSelectZone(selectedZone === zone.slug ? null : zone.slug)
-          }
+          onSelect={() => onSelectZone(zone.slug)}
         />
       ))}
     </div>

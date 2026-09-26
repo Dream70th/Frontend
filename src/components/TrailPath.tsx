@@ -2,7 +2,7 @@
 // ledge, a switchback west, east across the wooden bridge to the campsite,
 // up the grass slope to the castle gate, then the ridge to the summit flag.
 // Coordinates are in the 402x874 design canvas.
-const ROUTE =
+export const ROUTE =
   "M 172 676 C 150 662, 118 640, 96 612 C 80 592, 64 582, 63 570 " +
   "C 62 560, 82 557, 112 555 C 140 553, 160 552, 181 549 " +
   "C 212 543, 251 536, 287 527 C 296 510, 288 492, 281 472 " +
