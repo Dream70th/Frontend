@@ -1,17 +1,30 @@
 import { MapScreen } from "@/components/MapScreen";
 import { clearedZonesOf, getMyProgress } from "@/lib/progress";
-import { hasSeenGuide } from "@/lib/profile";
+import {
+  getDepartments,
+  getVisitorProfile,
+  hasEnteredRaffle,
+  hasSignedUp,
+} from "@/lib/profile";
 
 export default async function MainMapPage() {
-  const [progress, seenGuide] = await Promise.all([
+  const [progress, profile, departments, entered] = await Promise.all([
     getMyProgress(),
-    hasSeenGuide(),
+    getVisitorProfile(),
+    getDepartments(),
+    hasEnteredRaffle(),
   ]);
 
   return (
     <MapScreen
       clearedZones={clearedZonesOf(progress)}
-      needsGuide={!seenGuide}
+      // Nothing to pick from means the table is unreachable; sending someone
+      // to an unanswerable form would trap them on it.
+      needsSignup={!hasSignedUp(profile) && departments.length > 0}
+      needsGuide={!profile.seenGuide}
+      displayName={profile.displayName}
+      departments={departments}
+      hasEnteredRaffle={entered}
     />
   );
 }

@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import { ZONES, type ZoneSlug } from "@/components/TrailMap";
 
 /**
@@ -27,17 +29,23 @@ const BOARD_RATIO = "824 / 804";
 export function StampBoard({
   clearedZones,
   onClose,
-  onEnter,
+  signedUp,
+  entered,
+  onNeedSignup,
 }: {
   clearedZones: readonly ZoneSlug[];
   onClose: () => void;
-  /**
-   * Starts the raffle entry. Phase 6 is not built — there is no consent screen
-   * and nothing on the server records an entry — so until it exists this is
-   * left undefined and the button stays disabled rather than pretending.
-   */
-  onEnter?: () => void;
+  /** Whether the visitor has given the name and department the draw needs. */
+  signedUp: boolean;
+  /** Whether they are already in the draw. */
+  entered: boolean;
+  /** Opens the signup form for someone who skipped it on their first visit. */
+  onNeedSignup: () => void;
 }) {
+  const router = useRouter();
+  const [submitting, setSubmitting] = useState(false);
+  const [justEntered, setJustEntered] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") onClose();
@@ -50,6 +58,51 @@ export function StampBoard({
     clearedZones.includes(zone.slug),
   ).length;
   const complete = collected === ZONES.length;
+  const isEntered = entered || justEntered;
+
+  /**
+   * The server re-counts the stamps and re-checks the signup before it writes
+   * an entry, so this button cannot talk anyone into the draw on its own.
+   */
+  async function enter() {
+    if (submitting) return;
+    if (!signedUp) {
+      onNeedSignup();
+      return;
+    }
+
+    setSubmitting(true);
+    setError(null);
+
+    const supabase = createClient();
+    const { data, error: rpcError } = await supabase.rpc("enter_raffle");
+
+    if (rpcError) {
+      setError("응모하지 못했어요. 잠시 후 다시 시도해주세요.");
+      setSubmitting(false);
+      return;
+    }
+
+    const result = data as { ok: boolean; status: string };
+    if (!result?.ok) {
+      setError(
+        result?.status === "signup_incomplete"
+          ? "참가자 정보를 먼저 입력해주세요."
+          : "아직 도장이 모자라요.",
+      );
+      setSubmitting(false);
+      return;
+    }
+
+    setJustEntered(true);
+    setSubmitting(false);
+    router.refresh();
+  }
+
+  let label = "도장을 모두 모아주세요";
+  if (isEntered) label = "응모 완료";
+  else if (complete && !signedUp) label = "정보 입력하고 응모하기";
+  else if (complete) label = submitting ? "응모하는 중..." : "경품 응모하기";
 
   return (
     <div
@@ -103,9 +156,11 @@ export function StampBoard({
             </span>
           </p>
           <p className="mt-1 text-[13px] leading-relaxed font-semibold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
-            {complete
-              ? "네 구역을 모두 돌았어요!"
-              : `${ZONES.length - collected}개만 더 모으면 경품에 응모할 수 있어요.`}
+            {isEntered
+              ? "응모가 접수됐어요. 추첨 결과는 따로 안내드립니다."
+              : complete
+                ? "네 구역을 모두 돌았어요!"
+                : `${ZONES.length - collected}개만 더 모으면 경품에 응모할 수 있어요.`}
           </p>
         </div>
 
@@ -146,13 +201,21 @@ export function StampBoard({
         </p>
 
         <div className="px-6 pb-4">
+          {error && (
+            <p
+              role="alert"
+              className="mb-2 text-center text-[13px] font-bold text-[#FFD9C2] drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]"
+            >
+              {error}
+            </p>
+          )}
           <button
             type="button"
-            onClick={onEnter}
-            disabled={!complete || !onEnter}
+            onClick={() => void enter()}
+            disabled={!complete || isEntered || submitting}
             className="w-full rounded-full border-[3px] border-dotted border-[#FF5E00] bg-[#FF5E00] py-3.5 text-base font-bold text-white shadow-[0_4px_0_0_#cc4b00] transition-all active:translate-y-1 active:shadow-[0_1px_0_0_#cc4b00] disabled:border-white/30 disabled:bg-black/45 disabled:text-white/55 disabled:shadow-none disabled:active:translate-y-0"
           >
-            {complete ? "경품 응모하기" : "도장을 모두 모아주세요"}
+            {label}
           </button>
         </div>
       </div>

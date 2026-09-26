@@ -227,11 +227,11 @@ function RaffleSlide() {
           </span>
         ))}
       </div>
-      <SlideTitle eyebrow="RAFFLE" title="네 개를 모두 모으면 응모 완료" />
+      <SlideTitle eyebrow="RAFFLE" title="네 개를 모두 모으면 경품 응모" />
       <p className="mt-4 text-sm leading-relaxed font-medium text-white/65">
-        도장 4개를 모으면 경품 응모가 자동으로 완료됩니다.
+        도장 4개를 모으면 내 도장판에서
         <br />
-        따로 신청하실 것은 없어요.
+        경품 응모하기 버튼이 열립니다.
       </p>
       <p className="mt-5 rounded-xl bg-white/8 px-4 py-3 text-[12px] leading-relaxed font-medium text-white/45">
         경품 추첨과 수령 안내는 추후 공지를 드립니다.

@@ -16,6 +16,8 @@ import { AboutPopup } from "@/components/AboutPopup";
 import { AboutLogo } from "@/components/AboutLogo";
 import { Contributors } from "@/components/Contributors";
 import { StampBoard } from "@/components/StampBoard";
+import { SignupForm } from "@/components/SignupForm";
+import type { Department } from "@/lib/profile";
 import { WALK_MS } from "@/components/TrailWalker";
 
 /**
@@ -24,11 +26,20 @@ import { WALK_MS } from "@/components/TrailWalker";
  */
 export function MapScreen({
   clearedZones,
+  needsSignup,
   needsGuide,
+  displayName,
+  departments,
+  hasEnteredRaffle,
 }: {
   clearedZones: readonly ZoneSlug[];
+  /** No name and department yet — ask before anything else. */
+  needsSignup: boolean;
   /** First visit — show the guide before the map, and record it on close. */
   needsGuide: boolean;
+  displayName: string | null;
+  departments: readonly Department[];
+  hasEnteredRaffle: boolean;
 }) {
   const [selectedZone, setSelectedZone] = useState<ZoneSlug | null>(null);
   const [playingZone, setPlayingZone] = useState<Zone | null>(null);
@@ -36,6 +47,12 @@ export function MapScreen({
   const [guide, setGuide] = useState<"first" | "manual" | null>(
     needsGuide ? "first" : null,
   );
+  // "first" is the one-time ask after signing in, which can be skipped;
+  // "manual" is the visitor coming back to it from the stamp board.
+  const [signup, setSignup] = useState<"first" | "manual" | null>(
+    needsSignup ? "first" : null,
+  );
+  const [signedUp, setSignedUp] = useState(!needsSignup);
   const [info, setInfo] = useState<
     "popup" | "logo" | "contributors" | "board" | null
   >(null);
@@ -100,7 +117,25 @@ export function MapScreen({
         />
       )}
       {info === "board" && (
-        <StampBoard clearedZones={clearedZones} onClose={() => setInfo(null)} />
+        <StampBoard
+          clearedZones={clearedZones}
+          signedUp={signedUp}
+          entered={hasEnteredRaffle}
+          onNeedSignup={() => setSignup("manual")}
+          onClose={() => setInfo(null)}
+        />
+      )}
+      {signup && (
+        <SignupForm
+          displayName={displayName}
+          departments={departments}
+          onDone={() => {
+            setSignedUp(true);
+            setSignup(null);
+          }}
+          onSkip={() => setSignup(null)}
+          skipLabel={signup === "first" ? "나중에 하기" : "닫기"}
+        />
       )}
       {info === "popup" && <AboutPopup onClose={() => setInfo(null)} />}
       {info === "logo" && <AboutLogo onClose={() => setInfo(null)} />}
