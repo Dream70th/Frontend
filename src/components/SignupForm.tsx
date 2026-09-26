@@ -158,7 +158,7 @@ export function SignupForm({
             into the label: the things the law wants stated are easier to check
             as a list than as a paragraph. */}
         <div className="mt-3 rounded-xl border-2 border-dotted border-white/12 px-4 py-3.5">
-          <dl className="mt-2.5 space-y-1.5 text-[12px] leading-relaxed">
+          <dl className="mt-1 space-y-1.5 text-[12px] leading-relaxed">
             {[
               ["수집 항목", "이름, 부서"],
               ["수집 목적", "경품 추첨 및 전달"],

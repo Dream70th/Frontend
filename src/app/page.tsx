@@ -1,4 +1,5 @@
 import { MapScreen } from "@/components/MapScreen";
+import { ZONES } from "@/components/TrailMap";
 import { clearedZonesOf, getMyProgress } from "@/lib/progress";
 import {
   getDepartments,
@@ -15,9 +16,15 @@ export default async function MainMapPage() {
     hasEnteredRaffle(),
   ]);
 
+  const clearedZones = clearedZonesOf(progress);
+
   return (
     <MapScreen
-      clearedZones={clearedZonesOf(progress)}
+      clearedZones={clearedZones}
+      // The claim refreshes this page, so the fourth stamp lands here first.
+      needsCelebration={
+        clearedZones.length === ZONES.length && !profile.celebrated
+      }
       // Nothing to pick from means the table is unreachable; sending someone
       // to an unanswerable form would trap them on it.
       needsSignup={!hasSignedUp(profile) && departments.length > 0}

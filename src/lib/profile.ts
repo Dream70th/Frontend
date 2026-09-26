@@ -9,6 +9,8 @@ export type VisitorProfile = {
   realName: string | null;
   department: string | null;
   seenGuide: boolean;
+  /** Whether the completion screen has already been shown. */
+  celebrated: boolean;
 };
 
 /**
@@ -24,7 +26,7 @@ export async function getVisitorProfile(): Promise<VisitorProfile> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("profiles")
-    .select("display_name, real_name, department, onboarded_at")
+    .select("display_name, real_name, department, onboarded_at, celebrated_at")
     .maybeSingle();
 
   if (error) {
@@ -34,6 +36,7 @@ export async function getVisitorProfile(): Promise<VisitorProfile> {
       realName: "",
       department: "",
       seenGuide: true,
+      celebrated: true,
     };
   }
 
@@ -42,6 +45,7 @@ export async function getVisitorProfile(): Promise<VisitorProfile> {
     realName: data?.real_name ?? null,
     department: data?.department ?? null,
     seenGuide: data?.onboarded_at != null,
+    celebrated: data?.celebrated_at != null,
   };
 }
 

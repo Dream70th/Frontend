@@ -3,28 +3,10 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { StampBoardArt } from "@/components/StampBoardArt";
 import { ZONES, type ZoneSlug } from "@/components/TrailMap";
 
-/**
- * The stamp board from Figma (56:31), on its own screen rather than tucked into
- * the menu drawer, over the same artwork the mini-games use.
- *
- * The design ships five finished boards — empty, then one more stamp at each
- * step — but a visitor does not necessarily collect them in that order, so
- * picking a board by how many stamps they have would show the wrong slots
- * filled. The four stamps were pulled out of those images instead, by diffing
- * each one against the step before it, and they go on individually. Composing
- * all four back over the empty board reproduces the finished artwork exactly.
- */
-const STAMPS: Record<ZoneSlug, string> = {
-  goods: "/images/board/stamp-goods.png",
-  church: "/images/board/stamp-church.png",
-  clothing: "/images/board/stamp-clothing.png",
-  experience: "/images/board/stamp-experience.png",
-};
-
-/** Natural size of the board art, so the frame keeps its proportions. */
-const BOARD_RATIO = "824 / 804";
+/** The stamp board on its own screen, over the artwork the mini-games use. */
 
 export function StampBoard({
   clearedZones,
@@ -165,32 +147,10 @@ export function StampBoard({
         </div>
 
         <div className="flex flex-1 items-center justify-center px-4">
-          <div
-            className="relative w-full max-w-[380px]"
-            style={{ aspectRatio: BOARD_RATIO }}
-          >
-            <span
-              aria-hidden
-              className="absolute inset-0 bg-contain bg-center bg-no-repeat"
-              style={{
-                backgroundImage: "url('/images/board/board.png')",
-                imageRendering: "pixelated",
-              }}
-            />
-            {ZONES.map((zone) =>
-              clearedZones.includes(zone.slug) ? (
-                <span
-                  key={zone.slug}
-                  aria-hidden
-                  className="absolute inset-0 bg-contain bg-center bg-no-repeat"
-                  style={{
-                    backgroundImage: `url('${STAMPS[zone.slug]}')`,
-                    imageRendering: "pixelated",
-                  }}
-                />
-              ) : null,
-            )}
-          </div>
+          <StampBoardArt
+            clearedZones={clearedZones}
+            className="w-full max-w-[380px]"
+          />
         </div>
 
         <p className="sr-only">

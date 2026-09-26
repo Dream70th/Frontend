@@ -17,6 +17,7 @@ import { AboutLogo } from "@/components/AboutLogo";
 import { Contributors } from "@/components/Contributors";
 import { StampBoard } from "@/components/StampBoard";
 import { SignupForm } from "@/components/SignupForm";
+import { CompletionScreen } from "@/components/CompletionScreen";
 import type { Department } from "@/lib/profile";
 import { WALK_MS } from "@/components/TrailWalker";
 
@@ -28,6 +29,7 @@ export function MapScreen({
   clearedZones,
   needsSignup,
   needsGuide,
+  needsCelebration,
   displayName,
   departments,
   hasEnteredRaffle,
@@ -37,6 +39,8 @@ export function MapScreen({
   needsSignup: boolean;
   /** First visit — show the guide before the map, and record it on close. */
   needsGuide: boolean;
+  /** Every stamp collected, and the payoff screen not shown yet. */
+  needsCelebration: boolean;
   displayName: string | null;
   departments: readonly Department[];
   hasEnteredRaffle: boolean;
@@ -53,6 +57,11 @@ export function MapScreen({
     needsSignup ? "first" : null,
   );
   const [signedUp, setSignedUp] = useState(!needsSignup);
+  // Derived, not stored: the fourth stamp refreshes this page rather than
+  // remounting it, so state initialised from the prop would never see it turn
+  // true. Dismissing marks it on the server, which clears the prop too.
+  const [celebrationSeen, setCelebrationSeen] = useState(false);
+  const celebrating = needsCelebration && !celebrationSeen;
   const [info, setInfo] = useState<
     "popup" | "logo" | "contributors" | "board" | null
   >(null);
@@ -123,6 +132,15 @@ export function MapScreen({
           entered={hasEnteredRaffle}
           onNeedSignup={() => setSignup("manual")}
           onClose={() => setInfo(null)}
+        />
+      )}
+      {celebrating && (
+        <CompletionScreen
+          onClose={() => setCelebrationSeen(true)}
+          onOpenBoard={() => {
+            setCelebrationSeen(true);
+            setInfo("board");
+          }}
         />
       )}
       {signup && (
