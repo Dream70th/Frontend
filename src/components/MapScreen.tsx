@@ -35,13 +35,9 @@ export function MapScreen({
     null,
   );
 
-  // The pair starts wherever the visitor has already walked to: the furthest
-  // zone they have stamped, or the trailhead.
-  const [characterZone, setCharacterZone] = useState<ZoneSlug | null>(
-    () =>
-      [...ZONES].reverse().find((zone) => clearedZones.includes(zone.slug))
-        ?.slug ?? null,
-  );
+  // The pair always start at the trailhead, where the Figma frame puts them —
+  // every visit opens on the same picture, whatever has been stamped already.
+  const [characterZone, setCharacterZone] = useState<ZoneSlug | null>(null);
   const [pendingZone, setPendingZone] = useState<ZoneSlug | null>(null);
 
   // Tap a pin, the pair walks there, and the sheet opens once they arrive.
