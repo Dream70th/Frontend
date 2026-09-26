@@ -101,7 +101,7 @@ export function SignupForm({
           참가자 정보를 알려주세요
         </h2>
         <p className="mt-2.5 text-[13.5px] leading-[1.75] font-medium text-white/65">
-          도장 4개를 모으면 경품에 응모할 수 있어요. 당첨되셨을 때 찾아뵙기 위해
+          도장 4개를 모으면 경품에 응모할 수 있어요. 당첨 물품을 전달하기 위해
           이름과 부서만 받습니다.
         </p>
 
@@ -142,20 +142,41 @@ export function SignupForm({
           </div>
         </fieldset>
 
-        <label className="mt-7 flex gap-3 rounded-xl bg-white/8 px-4 py-3.5">
+        <label className="mt-7 flex items-center gap-3 rounded-xl bg-white/8 px-4 py-3.5">
           <input
             type="checkbox"
             checked={consented}
             onChange={(event) => setConsented(event.target.checked)}
-            className="mt-0.5 h-4.5 w-4.5 shrink-0 accent-[#FF5E00]"
+            className="h-4.5 w-4.5 shrink-0 accent-[#FF5E00]"
           />
-          <span className="text-[12px] leading-relaxed font-medium text-white/60">
-            경품 추첨과 전달을 위해 이름과 부서를 수집하는 데 동의합니다. 수집한
-            정보는 <b className="font-bold text-white/80">행사 후 1개월 내</b>에
-            파기하며, 다른 용도로는 쓰지 않습니다. 동의하지 않아도 도장판과
-            미션은 그대로 이용하실 수 있어요.
+          <span className="text-[14px] font-bold text-white/85">
+            개인정보 수집·이용에 동의합니다.
           </span>
         </label>
+
+        {/* What is being agreed to, set out under the box rather than crammed
+            into the label: the things the law wants stated are easier to check
+            as a list than as a paragraph. */}
+        <div className="mt-3 rounded-xl border-2 border-dotted border-white/12 px-4 py-3.5">
+          <dl className="mt-2.5 space-y-1.5 text-[12px] leading-relaxed">
+            {[
+              ["수집 항목", "이름, 부서"],
+              ["수집 목적", "경품 추첨 및 전달"],
+              ["보관 기간", "행사 후 1개월 내 파기"],
+            ].map(([term, detail]) => (
+              <div key={term} className="flex gap-2.5">
+                <dt className="w-[52px] shrink-0 font-bold text-white/45">
+                  {term}
+                </dt>
+                <dd className="font-medium text-white/65">{detail}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="mt-3 border-t border-white/10 pt-2.5 text-[12px] leading-relaxed font-medium text-white/45">
+            동의하지 않아도 도장판과 미션은 그대로 이용하실 수 있어요. 경품
+            응모만 제한됩니다.
+          </p>
+        </div>
 
         {error && (
           <p
