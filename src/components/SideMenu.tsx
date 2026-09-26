@@ -4,15 +4,17 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
-// Placeholder entries — the matching screens land in later phases.
-const MENU_ITEMS = [
-  "팝업스토어 소개",
-  "내 도장판",
-  "경품 응모",
-  "이용 안내",
-] as const;
-
-export function SideMenu() {
+export function SideMenu({
+  onOpenGuide,
+  onOpenPopupIntro,
+  onOpenLogoIntro,
+  onOpenContributors,
+}: {
+  onOpenGuide: () => void;
+  onOpenPopupIntro: () => void;
+  onOpenLogoIntro: () => void;
+  onOpenContributors: () => void;
+}) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
@@ -101,30 +103,72 @@ export function SideMenu() {
           </button>
         </div>
 
+        {/* 내 도장판 has no screen yet, and it is where the raffle will live:
+            entry is automatic on the fourth stamp, so it is a status to read on
+            the stamp board rather than a separate place to go. */}
         <ul className="flex-1 py-2">
-          {MENU_ITEMS.map((label) => (
+          {[
+            { label: "팝업스토어 소개", open: onOpenPopupIntro },
+            { label: "로고 소개", open: onOpenLogoIntro },
+            { label: "내 도장판", open: null },
+            { label: "Contributors", open: onOpenContributors },
+            { label: "이용 안내", open: onOpenGuide },
+          ].map(({ label, open }) => (
             <li key={label}>
               <button
                 type="button"
-                disabled
+                disabled={open === null}
                 tabIndex={isOpen ? 0 : -1}
-                className="flex w-full items-center justify-between px-5 py-3.5 text-left text-[15px] font-semibold text-black/40"
+                onClick={
+                  open === null
+                    ? undefined
+                    : () => {
+                        setIsOpen(false);
+                        open();
+                      }
+                }
+                className={`flex w-full items-center justify-between px-5 py-3.5 text-left text-[15px] font-semibold ${
+                  open === null ? "text-black/40" : "text-black hover:bg-black/5"
+                }`}
               >
                 {label}
-                <span className="text-[11px] font-medium text-black/30">
-                  준비중
-                </span>
+                {open === null && (
+                  <span className="text-[11px] font-medium text-black/30">
+                    준비중
+                  </span>
+                )}
               </button>
             </li>
           ))}
         </ul>
+
+        {/* The verse the whole trail is named after, set as a pull quote. Sits
+            above 로그아웃 so the last tappable row stays on the bottom edge.
+            The decorative mark is a Latin glyph, so a serif face is safe here;
+            the Korean text stays in the app font — synthesised Korean serif and
+            italics look broken across devices. */}
+        <figure className="relative mx-5 mb-4 rounded-2xl border-2 border-dotted border-black/15 bg-black/[0.04] px-4 pt-7 pb-3.5">
+          <span
+            aria-hidden
+            className="absolute top-0 left-3 font-serif text-[52px] leading-none text-[#FF5E00]/30"
+          >
+            &ldquo;
+          </span>
+          <blockquote className="text-[13px] leading-[1.8] font-semibold text-black/70">
+            내가 곧 길이요 진리요 생명이니 나로 말미암지 않고는 아버지께로 올
+            자가 없느니라
+          </blockquote>
+          <figcaption className="mt-3 text-right text-[11px] font-bold tracking-wide text-black/40">
+            — 요한복음 14:6
+          </figcaption>
+        </figure>
 
         <button
           type="button"
           onClick={handleSignOut}
           disabled={isSigningOut}
           tabIndex={isOpen ? 0 : -1}
-          className="text-trail-orange border-t border-black/10 px-5 py-4 text-left text-[15px] font-bold disabled:opacity-60"
+          className="text-trail-orange border-t border-black/10 px-5 py-4 text-right text-[15px] font-bold disabled:opacity-60"
         >
           로그아웃
         </button>
