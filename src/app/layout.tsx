@@ -19,6 +19,9 @@ export const metadata: Metadata = {
     statusBarStyle: "black-translucent",
     title: "WHO MADE THIS TRAIL",
   },
+  // `capable` above only emits the modern `mobile-web-app-capable`, and iOS has
+  // historically read the status bar style only alongside Apple's own spelling.
+  other: { "apple-mobile-web-app-capable": "yes" },
 };
 
 export const viewport: Viewport = {
