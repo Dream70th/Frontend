@@ -9,7 +9,7 @@ export default async function LoginPage() {
   const userAgent = headerList.get("user-agent") ?? "";
 
   return (
-    <LetterboxViewport>
+    <LetterboxViewport backdrop="/images/login-bg.png">
       <Image
         src="/images/login-bg.png"
         alt="WHO MADE THIS TRAIL — 70주년 팝업플레이스"

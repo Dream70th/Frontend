@@ -18,6 +18,9 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
+  // Let the page paint into the safe areas; LetterboxViewport keeps the actual
+  // frame inset so nothing lands under the status bar or home indicator.
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

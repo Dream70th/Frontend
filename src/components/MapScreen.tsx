@@ -61,7 +61,7 @@ export function MapScreen({
   const zone = ZONES.find((candidate) => candidate.slug === selectedZone) ?? null;
 
   return (
-    <LetterboxViewport>
+    <LetterboxViewport backdrop="/images/trail-map-bg.png">
       <TrailMap
         selectedZone={selectedZone ?? pendingZone}
         onSelectZone={handlePinTap}
