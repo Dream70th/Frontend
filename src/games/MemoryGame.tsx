@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { GameField } from "@/games/GameField";
 import type { GameModuleProps } from "@/games/types";
 
 /**
@@ -24,10 +25,38 @@ const xPct = (value: number) => `${(value / DESIGN_WIDTH) * 100}%`;
 const yPct = (value: number) => `${(value / DESIGN_HEIGHT) * 100}%`;
 
 const CARDS = [
-  { name: "상의", src: "/images/clothing/card-top.png", x: 24, y: 127, w: 163, h: 214 },
-  { name: "바지", src: "/images/clothing/card-pants.png", x: 195, y: 127, w: 164, h: 215 },
-  { name: "모자", src: "/images/clothing/card-cap.png", x: 196, y: 372, w: 163, h: 215 },
-  { name: "신발", src: "/images/clothing/card-boots.png", x: 25, y: 373, w: 162, h: 214 },
+  {
+    name: "상의",
+    src: "/images/clothing/card-top.png",
+    x: 24,
+    y: 127,
+    w: 163,
+    h: 214,
+  },
+  {
+    name: "바지",
+    src: "/images/clothing/card-pants.png",
+    x: 195,
+    y: 127,
+    w: 164,
+    h: 215,
+  },
+  {
+    name: "모자",
+    src: "/images/clothing/card-cap.png",
+    x: 196,
+    y: 372,
+    w: 163,
+    h: 215,
+  },
+  {
+    name: "신발",
+    src: "/images/clothing/card-boots.png",
+    x: 25,
+    y: 373,
+    w: 162,
+    h: 214,
+  },
 ] as const;
 
 const STEP_MS = 430;
@@ -224,7 +253,10 @@ export function MemoryGame({
     if (expected !== index) {
       // Keep the wrong card lit for the whole hold, so it is clear what was hit.
       flashRef.current = { index, remaining: HOLD_MS };
-      holdRef.current = { remaining: HOLD_MS, next: randomSequence(START_LENGTH) };
+      holdRef.current = {
+        remaining: HOLD_MS,
+        next: randomSequence(START_LENGTH),
+      };
       setVerdict("wrong");
       return;
     }
@@ -258,83 +290,96 @@ export function MemoryGame({
         {targetScore}단계 중 {score}단계.
       </span>
 
-      <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between px-3 pb-3 pt-[calc(0.75rem+var(--safe-top))]">
-        <span className="rounded-full bg-black/45 px-3 py-1 text-sm font-bold text-white tabular-nums">
-          ⏱ {remaining}
-        </span>
-        <span className="rounded-full bg-black/45 px-3 py-1 text-sm font-bold text-white tabular-nums">
-          {score} / {targetScore}
-        </span>
-        <button
-          type="button"
-          onClick={pause}
-          aria-label="일시정지"
-          className="pointer-events-auto flex h-8 w-8 items-center justify-center rounded-full bg-black/45 text-white"
-        >
-          <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden>
-            <rect x="6" y="5" width="4" height="14" rx="1" />
-            <rect x="14" y="5" width="4" height="14" rx="1" />
-          </svg>
-        </button>
-      </div>
-
-      <p
-        role="status"
-        className="absolute inset-x-0 text-center text-[13px] font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]"
-        style={{ top: yPct(88) }}
-      >
-        {phase === "watch" && !verdict
-          ? `잘 보세요 · ${sequenceLength}단계`
-          : verdict
-            ? " "
-            : "순서대로 눌러주세요"}
-      </p>
-
-      {CARDS.map((card, index) => {
-        const lit = active === index;
-        const glow =
-          lit && verdict === "correct"
-            ? "drop-shadow-[0_0_12px_rgba(126,217,87,0.95)]"
-            : lit && verdict === "wrong"
-              ? "drop-shadow-[0_0_12px_rgba(229,57,53,0.95)]"
-              : lit
-                ? "drop-shadow-[0_0_10px_rgba(255,255,255,0.85)]"
-                : "";
-
-        return (
+      <GameField>
+        <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between p-3">
+          <span className="rounded-full bg-black/45 px-3 py-1 text-sm font-bold text-white tabular-nums">
+            ⏱ {remaining}
+          </span>
+          <span className="rounded-full bg-black/45 px-3 py-1 text-sm font-bold text-white tabular-nums">
+            {score} / {targetScore}
+          </span>
           <button
-            key={card.name}
             type="button"
-            onClick={() => handleTap(index)}
-            disabled={phase !== "input"}
-            aria-label={card.name}
-            className={`absolute rounded-2xl bg-contain bg-center bg-no-repeat transition-all duration-100 disabled:cursor-default ${
-              lit ? `scale-[1.04] brightness-125 ${glow}` : "brightness-90"
-            }`}
-            style={{
-              left: xPct(card.x),
-              top: yPct(card.y),
-              width: xPct(card.w),
-              height: yPct(card.h),
-              backgroundImage: `url('${card.src}')`,
-              imageRendering: "pixelated",
-            }}
-          />
-        );
-      })}
+            onClick={pause}
+            aria-label="일시정지"
+            className="pointer-events-auto flex h-8 w-8 items-center justify-center rounded-full bg-black/45 text-white"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="h-4 w-4"
+              aria-hidden
+            >
+              <rect x="6" y="5" width="4" height="14" rx="1" />
+              <rect x="14" y="5" width="4" height="14" rx="1" />
+            </svg>
+          </button>
+        </div>
 
-      {verdict && (
-        <span
-          key={`${verdict}-${score}`}
-          aria-hidden
-          className={`animate-feedback-pop pointer-events-none absolute left-1/2 rounded-full px-6 py-3 text-xl font-bold text-white shadow-lg ${
-            verdict === "correct" ? "bg-[#4CAF50]" : "bg-[#C62828]"
-          }`}
-          style={{ top: yPct(357) }}
+        <p
+          role="status"
+          className="absolute inset-x-0 text-center text-[13px] font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]"
+          style={{ top: yPct(88) }}
         >
-          {verdict === "correct" ? `${sequenceLength}단계 성공!` : "틀렸어요!"}
-        </span>
-      )}
+          {phase === "watch" && !verdict
+            ? `잘 보세요 · ${sequenceLength}단계`
+            : verdict
+              ? " "
+              : "순서대로 눌러주세요"}
+        </p>
+
+        {CARDS.map((card, index) => {
+          const lit = active === index;
+          const glow =
+            lit && verdict === "correct"
+              ? "drop-shadow-[0_0_12px_rgba(126,217,87,0.95)]"
+              : lit && verdict === "wrong"
+                ? "drop-shadow-[0_0_12px_rgba(229,57,53,0.95)]"
+                : lit
+                  ? "drop-shadow-[0_0_10px_rgba(255,255,255,0.85)]"
+                  : "";
+
+          return (
+            <button
+              key={card.name}
+              type="button"
+              onClick={() => handleTap(index)}
+              disabled={phase !== "input"}
+              aria-label={card.name}
+              className={`absolute rounded-2xl bg-contain bg-center bg-no-repeat transition-all duration-100 disabled:cursor-default ${
+                lit ? `scale-[1.04] brightness-125 ${glow}` : "brightness-90"
+              }`}
+              style={{
+                left: xPct(card.x),
+                top: yPct(card.y),
+                width: xPct(card.w),
+                height: yPct(card.h),
+                backgroundImage: `url('${card.src}')`,
+                imageRendering: "pixelated",
+              }}
+            />
+          );
+        })}
+
+        {verdict && (
+          <span
+            key={`${verdict}-${score}`}
+            aria-hidden
+            className={`animate-feedback-pop pointer-events-none absolute left-1/2 rounded-full px-6 py-3 text-xl font-bold text-white shadow-lg ${
+              verdict === "correct" ? "bg-[#4CAF50]" : "bg-[#C62828]"
+            }`}
+            style={{ top: yPct(357) }}
+          >
+            {verdict === "correct"
+              ? `${sequenceLength}단계 성공!`
+              : "틀렸어요!"}
+          </span>
+        )}
+
+        <p className="pointer-events-none absolute inset-x-0 bottom-0 bg-black/55 py-1.5 text-center text-[12px] font-semibold text-white/80">
+          한 단계 성공할 때마다 옷이 하나씩 늘어나요
+        </p>
+      </GameField>
 
       {paused && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/65 px-8">
@@ -358,10 +403,6 @@ export function MemoryGame({
           </button>
         </div>
       )}
-
-      <p className="pointer-events-none absolute inset-x-0 bottom-0 bg-black/55 pt-1.5 pb-[calc(0.375rem+var(--safe-bottom))] text-center text-[12px] font-semibold text-white/80">
-        한 단계 성공할 때마다 옷이 하나씩 늘어나요
-      </p>
     </div>
   );
 }

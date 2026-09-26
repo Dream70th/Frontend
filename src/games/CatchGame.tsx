@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { GameField } from "@/games/GameField";
 import type { GameModuleProps } from "@/games/types";
 
 type Variant = "good" | "rock" | "bomb";
@@ -341,34 +342,83 @@ export function CatchGame({
         {targetScore}개 중 {score}개.
       </span>
 
-      <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between px-3 pb-3 pt-[calc(0.75rem+var(--safe-top))]">
-        <span className="rounded-full bg-black/45 px-3 py-1 text-sm font-bold text-white tabular-nums">
-          ⏱ {remaining}
-        </span>
-        <span className="rounded-full bg-black/45 px-3 py-1 text-sm font-bold text-white tabular-nums">
-          {score} / {targetScore}
-        </span>
-        <button
-          type="button"
-          onClick={pause}
-          aria-label="일시정지"
-          className="pointer-events-auto flex h-8 w-8 items-center justify-center rounded-full bg-black/45 text-white"
-        >
-          <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden>
-            <rect x="6" y="5" width="4" height="14" rx="1" />
-            <rect x="14" y="5" width="4" height="14" rx="1" />
-          </svg>
-        </button>
-      </div>
+      <GameField>
+        <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between p-3">
+          <span className="rounded-full bg-black/45 px-3 py-1 text-sm font-bold text-white tabular-nums">
+            ⏱ {remaining}
+          </span>
+          <span className="rounded-full bg-black/45 px-3 py-1 text-sm font-bold text-white tabular-nums">
+            {score} / {targetScore}
+          </span>
+          <button
+            type="button"
+            onClick={pause}
+            aria-label="일시정지"
+            className="pointer-events-auto flex h-8 w-8 items-center justify-center rounded-full bg-black/45 text-white"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="h-4 w-4"
+              aria-hidden
+            >
+              <rect x="6" y="5" width="4" height="14" rx="1" />
+              <rect x="14" y="5" width="4" height="14" rx="1" />
+            </svg>
+          </button>
+        </div>
 
-      {items.map((item) => {
-        const position = {
-          left: `${item.x}%`,
-          top: `${item.y}%`,
-          transform: "translate(-50%, -50%)",
-        } as const;
+        {items.map((item) => {
+          const position = {
+            left: `${item.x}%`,
+            top: `${item.y}%`,
+            transform: "translate(-50%, -50%)",
+          } as const;
 
-        if (item.variant === "bomb") {
+          if (item.variant === "bomb") {
+            return (
+              <span
+                key={item.id}
+                aria-hidden
+                className="absolute bg-contain bg-center bg-no-repeat"
+                style={{
+                  ...position,
+                  width: `${BOMB.width}%`,
+                  aspectRatio: BOMB.ratio,
+                  backgroundImage: `url('${BOMB.src}')`,
+                  imageRendering: "pixelated",
+                }}
+              />
+            );
+          }
+
+          if (item.variant === "rock") {
+            return (
+              <svg
+                key={item.id}
+                viewBox="0 0 28 24"
+                aria-hidden
+                className="absolute w-[13%]"
+                style={position}
+              >
+                <path
+                  d="M4 20 L2 12 L8 4 L18 3 L26 11 L24 20 Z"
+                  fill="#8A867E"
+                  stroke="#4F4C47"
+                  strokeWidth="2"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M8 4 L12 12 L24 20"
+                  fill="none"
+                  stroke="#B6B2A9"
+                  strokeWidth="2"
+                />
+              </svg>
+            );
+          }
+
+          const good = GOODS[item.kind];
           return (
             <span
               key={item.id}
@@ -376,79 +426,46 @@ export function CatchGame({
               className="absolute bg-contain bg-center bg-no-repeat"
               style={{
                 ...position,
-                width: `${BOMB.width}%`,
-                aspectRatio: BOMB.ratio,
-                backgroundImage: `url('${BOMB.src}')`,
+                width: `${good.width}%`,
+                aspectRatio: good.ratio,
+                backgroundImage: `url('${good.src}')`,
                 imageRendering: "pixelated",
               }}
             />
           );
-        }
+        })}
 
-        if (item.variant === "rock") {
-          return (
-            <svg
-              key={item.id}
-              viewBox="0 0 28 24"
-              aria-hidden
-              className="absolute w-[13%]"
-              style={position}
-            >
-              <path
-                d="M4 20 L2 12 L8 4 L18 3 L26 11 L24 20 Z"
-                fill="#8A867E"
-                stroke="#4F4C47"
-                strokeWidth="2"
-                strokeLinejoin="round"
-              />
-              <path d="M8 4 L12 12 L24 20" fill="none" stroke="#B6B2A9" strokeWidth="2" />
-            </svg>
-          );
-        }
-
-        const good = GOODS[item.kind];
-        return (
-          <span
-            key={item.id}
-            aria-hidden
-            className="absolute bg-contain bg-center bg-no-repeat"
-            style={{
-              ...position,
-              width: `${good.width}%`,
-              aspectRatio: good.ratio,
-              backgroundImage: `url('${good.src}')`,
-              imageRendering: "pixelated",
-            }}
-          />
-        );
-      })}
-
-      <span
-        aria-hidden
-        className={`absolute bg-contain bg-bottom bg-no-repeat transition-[filter] duration-100 ${
-          hit ? "brightness-75 saturate-150" : ""
-        }`}
-        style={{
-          left: `${basket}%`,
-          top: `${BASKET_Y}%`,
-          width: `${BASKET_WIDTH}%`,
-          aspectRatio: "101 / 62",
-          transform: "translate(-50%, -50%)",
-          backgroundImage: "url('/images/goods/basket.png')",
-          imageRendering: "pixelated",
-        }}
-      />
-
-      {popups.map((popup) => (
         <span
-          key={popup.id}
           aria-hidden
-          className="animate-damage-float absolute text-2xl font-bold text-[#FF3B30] [text-shadow:0_2px_0_rgba(0,0,0,0.45)]"
-          style={{ left: `${popup.x}%`, top: `${BASKET_Y - 4}%` }}
-        >
-          −{popup.amount}
-        </span>
-      ))}
+          className={`absolute bg-contain bg-bottom bg-no-repeat transition-[filter] duration-100 ${
+            hit ? "brightness-75 saturate-150" : ""
+          }`}
+          style={{
+            left: `${basket}%`,
+            top: `${BASKET_Y}%`,
+            width: `${BASKET_WIDTH}%`,
+            aspectRatio: "101 / 62",
+            transform: "translate(-50%, -50%)",
+            backgroundImage: "url('/images/goods/basket.png')",
+            imageRendering: "pixelated",
+          }}
+        />
+
+        {popups.map((popup) => (
+          <span
+            key={popup.id}
+            aria-hidden
+            className="animate-damage-float absolute text-2xl font-bold text-[#FF3B30] [text-shadow:0_2px_0_rgba(0,0,0,0.45)]"
+            style={{ left: `${popup.x}%`, top: `${BASKET_Y - 4}%` }}
+          >
+            −{popup.amount}
+          </span>
+        ))}
+
+        <p className="pointer-events-none absolute inset-x-0 bottom-0 bg-black/55 py-1.5 text-center text-[12px] font-semibold text-white/80">
+          돌멩이 −1 · 폭탄 −3, 피하세요!
+        </p>
+      </GameField>
 
       {/* A wash of red over the whole board, heavier for a bomb than a rock. */}
       {hit && (
@@ -482,10 +499,6 @@ export function CatchGame({
           </button>
         </div>
       )}
-
-      <p className="pointer-events-none absolute inset-x-0 bottom-0 bg-black/55 pt-1.5 pb-[calc(0.375rem+var(--safe-bottom))] text-center text-[12px] font-semibold text-white/80">
-        돌멩이 −1 · 폭탄 −3, 피하세요!
-      </p>
     </div>
   );
 }
