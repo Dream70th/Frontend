@@ -39,7 +39,6 @@ const EXTRA = [
   { work: "현수막 제작", people: "배은하" },
   { work: "영상 제작", people: "송휘종" },
   { work: "팜플렛 제작", people: "이수연" },
-  
 ] as const;
 
 export function Contributors({ onClose }: { onClose: () => void }) {
