@@ -7,10 +7,11 @@ import { TrailWalker } from "@/components/TrailWalker";
 import { xPct, yPct } from "@/lib/design-coordinates";
 
 // What the map can afford to lose off each end when a screen is the wrong
-// shape. Above stage 4's pin (top y=20 at the peak of its float) there is only
-// sky; below the walkers' feet (y=756) only forest. Both stop a few pixels
-// short of the content so nothing ends up grazing the edge of the screen.
-const TOP_SLACK = 14;
+// shape. Above stage 4's pin (top y=95 at the peak of its float) there is only
+// sky; below the walkers' feet (y=756) only forest. Both stop well short of
+// the content: the top has to leave room for the status bar as well, since the
+// artwork now runs underneath it.
+const TOP_SLACK = 40;
 const BOTTOM_SLACK = 874 - 774;
 
 // Pin tips sit on these points (402x874 design canvas): the forest ledge,
@@ -23,8 +24,11 @@ export const ZONES = [
   { slug: "goods", name: "굿즈", stage: 1, x: 172, y: 676, claimMethod: "game" },
   { slug: "church", name: "교회", stage: 2, x: 287, y: 527, claimMethod: "code" },
   { slug: "clothing", name: "의류", stage: 3, x: 215, y: 352, claimMethod: "game" },
-  // Tip sits above the summit flag (pole y 75~103) so the pin doesn't cover it.
-  { slug: "experience", name: "체험", stage: 4, x: 288, y: 70, claimMethod: "code" },
+  // Hangs just under the summit flag (pole y 75~103) rather than in the sky
+  // above it. That sky is where the phone puts its clock and its notch, and
+  // with the artwork now running to the top of the screen the pin was landing
+  // behind the Dynamic Island.
+  { slug: "experience", name: "체험", stage: 4, x: 288, y: 145, claimMethod: "code" },
 ] as const;
 
 export type Zone = (typeof ZONES)[number];
