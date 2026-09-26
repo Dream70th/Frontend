@@ -9,11 +9,13 @@ export function SideMenu({
   onOpenPopupIntro,
   onOpenLogoIntro,
   onOpenContributors,
+  onOpenStampBoard,
 }: {
   onOpenGuide: () => void;
   onOpenPopupIntro: () => void;
   onOpenLogoIntro: () => void;
   onOpenContributors: () => void;
+  onOpenStampBoard: () => void;
 }) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -111,7 +113,7 @@ export function SideMenu({
           {[
             { label: "팝업스토어 소개", open: onOpenPopupIntro },
             { label: "로고 소개", open: onOpenLogoIntro },
-            { label: "내 도장판", open: null },
+            { label: "내 도장판", open: onOpenStampBoard },
             { label: "Contributors", open: onOpenContributors },
             { label: "이용 안내", open: onOpenGuide },
           ].map(({ label, open }) => (
@@ -129,7 +131,9 @@ export function SideMenu({
                       }
                 }
                 className={`flex w-full items-center justify-between px-5 py-3.5 text-left text-[15px] font-semibold ${
-                  open === null ? "text-black/40" : "text-black hover:bg-black/5"
+                  open === null
+                    ? "text-black/40"
+                    : "text-black hover:bg-black/5"
                 }`}
               >
                 {label}

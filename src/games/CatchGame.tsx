@@ -479,7 +479,7 @@ export function CatchGame({
 
       {paused && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/65 px-8">
-          <p className="text-2xl font-bold text-white">잠시 멈췄어요</p>
+          <p className="text-2xl font-bold text-white">PAUSED</p>
           <p className="text-sm font-medium text-white/60">
             {score} / {targetScore} · {remaining}초 남음
           </p>

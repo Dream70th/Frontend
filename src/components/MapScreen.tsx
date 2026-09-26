@@ -2,7 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { AppViewport } from "@/components/AppViewport";
-import { TrailMap, ZONES, type Zone, type ZoneSlug } from "@/components/TrailMap";
+import {
+  TrailMap,
+  ZONES,
+  type Zone,
+  type ZoneSlug,
+} from "@/components/TrailMap";
 import { SideMenu } from "@/components/SideMenu";
 import { ZoneSheet } from "@/components/ZoneSheet";
 import { GameShell } from "@/components/GameShell";
@@ -10,8 +15,8 @@ import { OnboardingGuide } from "@/components/OnboardingGuide";
 import { AboutPopup } from "@/components/AboutPopup";
 import { AboutLogo } from "@/components/AboutLogo";
 import { Contributors } from "@/components/Contributors";
+import { StampBoard } from "@/components/StampBoard";
 import { WALK_MS } from "@/components/TrailWalker";
-
 
 /**
  * Interactive shell for the main map. Zone selection is local UI state;
@@ -31,9 +36,9 @@ export function MapScreen({
   const [guide, setGuide] = useState<"first" | "manual" | null>(
     needsGuide ? "first" : null,
   );
-  const [info, setInfo] = useState<"popup" | "logo" | "contributors" | null>(
-    null,
-  );
+  const [info, setInfo] = useState<
+    "popup" | "logo" | "contributors" | "board" | null
+  >(null);
 
   // The pair always start at the trailhead, where the Figma frame puts them —
   // every visit opens on the same picture, whatever has been stamped already.
@@ -58,7 +63,8 @@ export function MapScreen({
     setPendingZone(slug);
   }
 
-  const zone = ZONES.find((candidate) => candidate.slug === selectedZone) ?? null;
+  const zone =
+    ZONES.find((candidate) => candidate.slug === selectedZone) ?? null;
 
   return (
     <AppViewport>
@@ -73,6 +79,7 @@ export function MapScreen({
         onOpenPopupIntro={() => setInfo("popup")}
         onOpenLogoIntro={() => setInfo("logo")}
         onOpenContributors={() => setInfo("contributors")}
+        onOpenStampBoard={() => setInfo("board")}
       />
       <ZoneSheet
         zone={zone}
@@ -91,6 +98,9 @@ export function MapScreen({
           markSeen={guide === "first"}
           onClose={() => setGuide(null)}
         />
+      )}
+      {info === "board" && (
+        <StampBoard clearedZones={clearedZones} onClose={() => setInfo(null)} />
       )}
       {info === "popup" && <AboutPopup onClose={() => setInfo(null)} />}
       {info === "logo" && <AboutLogo onClose={() => setInfo(null)} />}
