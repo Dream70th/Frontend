@@ -8,7 +8,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "WHO MADE THIS TRAIL — 70주년 팝업플레이스",
+  title: "WHO MADE THIS TRAIL",
   description: "인천드림교회 70주년 팝업플레이스 디지털 도장판",
   manifest: "/manifest.json",
 };
