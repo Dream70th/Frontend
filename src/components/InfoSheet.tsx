@@ -29,7 +29,7 @@ export function InfoSheet({
       role="dialog"
       aria-modal="true"
       aria-label={title}
-      className="absolute inset-0 z-30 flex flex-col bg-[#171512]"
+      className="absolute inset-0 z-30 flex flex-col bg-[#171512] pt-[var(--safe-top)] pb-[var(--safe-bottom)]"
     >
       <div className="flex items-center justify-between border-b border-white/10 px-5 py-3.5">
         <h2 className="text-[15px] font-bold text-white">{title}</h2>

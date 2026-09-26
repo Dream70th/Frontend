@@ -258,7 +258,7 @@ export function MemoryGame({
         {targetScore}단계 중 {score}단계.
       </span>
 
-      <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between p-3">
+      <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between px-3 pb-3 pt-[calc(0.75rem+var(--safe-top))]">
         <span className="rounded-full bg-black/45 px-3 py-1 text-sm font-bold text-white tabular-nums">
           ⏱ {remaining}
         </span>
@@ -359,7 +359,7 @@ export function MemoryGame({
         </div>
       )}
 
-      <p className="pointer-events-none absolute inset-x-0 bottom-0 bg-black/55 py-1.5 text-center text-[12px] font-semibold text-white/80">
+      <p className="pointer-events-none absolute inset-x-0 bottom-0 bg-black/55 pt-1.5 pb-[calc(0.375rem+var(--safe-bottom))] text-center text-[12px] font-semibold text-white/80">
         한 단계 성공할 때마다 옷이 하나씩 늘어나요
       </p>
     </div>

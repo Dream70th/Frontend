@@ -55,7 +55,7 @@ export function OnboardingGuide({
       role="dialog"
       aria-modal="true"
       aria-label="이용 안내"
-      className="absolute inset-0 z-30 flex flex-col bg-[#171512]"
+      className="absolute inset-0 z-30 flex flex-col bg-[#171512] pt-[var(--safe-top)] pb-[var(--safe-bottom)]"
     >
       <div className="flex items-center justify-end px-4 py-3">
         <button

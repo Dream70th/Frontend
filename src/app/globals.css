@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
 :root {
+  /* The artwork runs under the status bar and the home indicator; anything
+     tappable or readable pads itself off them with these. */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
   --background: #171512;
   --foreground: #171717;
   --color-trail-orange: #ff5e00;

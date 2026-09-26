@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { LetterboxViewport } from "@/components/LetterboxViewport";
+import { AppViewport } from "@/components/AppViewport";
 import { TrailMap, ZONES, type Zone, type ZoneSlug } from "@/components/TrailMap";
 import { SideMenu } from "@/components/SideMenu";
 import { ZoneSheet } from "@/components/ZoneSheet";
@@ -61,7 +61,7 @@ export function MapScreen({
   const zone = ZONES.find((candidate) => candidate.slug === selectedZone) ?? null;
 
   return (
-    <LetterboxViewport backdrop="/images/trail-map-bg.png">
+    <AppViewport>
       <TrailMap
         selectedZone={selectedZone ?? pendingZone}
         onSelectZone={handlePinTap}
@@ -97,6 +97,6 @@ export function MapScreen({
       {info === "contributors" && (
         <Contributors onClose={() => setInfo(null)} />
       )}
-    </LetterboxViewport>
+    </AppViewport>
   );
 }

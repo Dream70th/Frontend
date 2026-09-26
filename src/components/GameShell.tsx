@@ -138,7 +138,7 @@ export function GameShell({
   const Game = gameModule.Component;
 
   return (
-    <div className="absolute inset-0 z-20 flex flex-col bg-[#171512]">
+    <div className="absolute inset-0 z-20 flex flex-col bg-[#171512] pt-[var(--safe-top)] pb-[var(--safe-bottom)]">
       {/* While playing, the whole frame belongs to the game: it fills the
           artwork edge to edge and draws its own HUD on top. */}
       {phase !== "playing" && (

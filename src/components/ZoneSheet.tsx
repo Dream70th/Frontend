@@ -158,7 +158,7 @@ export function ZoneSheet({
         aria-modal="true"
         aria-label={shown ? `${shown.name} 구역` : undefined}
         aria-hidden={!isOpen}
-        className={`absolute inset-x-0 bottom-0 rounded-t-3xl border-t-[3px] border-dotted border-[#FF5E00] bg-[#E8DCC0] px-6 pt-5 pb-7 shadow-2xl transition-transform duration-300 ease-out ${
+        className={`absolute inset-x-0 bottom-0 rounded-t-3xl border-t-[3px] border-dotted border-[#FF5E00] bg-[#E8DCC0] px-6 pt-5 pb-[calc(1.75rem+var(--safe-bottom))] shadow-2xl transition-transform duration-300 ease-out ${
           isOpen ? "translate-y-0" : "translate-y-full"
         }`}
       >

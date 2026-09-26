@@ -43,7 +43,8 @@ export function SideMenu({
         onClick={() => setIsOpen(true)}
         aria-label="메뉴 열기"
         aria-expanded={isOpen}
-        className="absolute top-4 left-4 flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-black shadow"
+        className="absolute left-4 flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-black shadow"
+        style={{ top: "calc(1rem + var(--safe-top))" }}
       >
         <svg
           viewBox="0 0 24 24"
@@ -73,7 +74,7 @@ export function SideMenu({
         aria-modal="true"
         aria-label="메뉴"
         aria-hidden={!isOpen}
-        className={`absolute inset-y-0 left-0 flex w-[72%] max-w-[300px] flex-col bg-[#E8DCC0] shadow-2xl transition-transform duration-300 ease-out ${
+        className={`absolute inset-y-0 left-0 flex w-[72%] max-w-[300px] flex-col bg-[#E8DCC0] pt-[var(--safe-top)] pb-[var(--safe-bottom)] shadow-2xl transition-transform duration-300 ease-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

@@ -1,6 +1,6 @@
 // All Figma frames in this project are designed at a fixed 402x874 canvas.
 // Pixel coordinates from Figma convert to % so absolute layouts stay put
-// when LetterboxViewport scales the frame up or down.
+// when ArtStage scales the frame up or down.
 export const DESIGN_WIDTH = 402;
 export const DESIGN_HEIGHT = 874;
 

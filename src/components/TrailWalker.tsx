@@ -13,9 +13,13 @@ const SIZE = { width: 90, height: 81 };
  * The route the pair walks. It is the dotted trail, with a short approach
  * curve prepended: the trail itself starts at 굿즈, but the pair begins below
  * it at the trailhead, where the original artwork had them standing.
+ *
+ * The trailhead sits at y=756 rather than further down the same stretch of
+ * sand, so that everything below y=760 is empty forest the map can crop away
+ * on a screen that is the wrong shape (see ArtStage).
  */
 const WALK_PATH =
-  "M 100 773 C 120 750, 152 714, 172 676 " +
+  "M 104 756 C 124 736, 152 710, 172 676 " +
   ROUTE.replace(/^M\s+172\s+676\s*/, "");
 
 /** Walk beside the dotted line rather than on top of it, so the pin stays readable. */

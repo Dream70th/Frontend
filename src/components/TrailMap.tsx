@@ -1,8 +1,16 @@
 "use client";
 
+import { ArtStage } from "@/components/ArtStage";
 import { TrailPath } from "@/components/TrailPath";
 import { TrailWalker } from "@/components/TrailWalker";
 import { xPct, yPct } from "@/lib/design-coordinates";
+
+// What the map can afford to lose off each end when a screen is the wrong
+// shape. Above stage 4's pin (top y=20 at the peak of its float) there is only
+// sky; below the walkers' feet (y=756) only forest. Both stop a few pixels
+// short of the content so nothing ends up grazing the edge of the screen.
+const TOP_SLACK = 14;
+const BOTTOM_SLACK = 874 - 774;
 
 // Pin tips sit on these points (402x874 design canvas): the forest ledge,
 // the campsite tent, the castle gate, and the summit flag.
@@ -105,12 +113,16 @@ export function TrailMap({
     ZONES.find((candidate) => candidate.slug === characterZone) ?? null;
 
   return (
-    <div className="relative h-full w-full">
+    <ArtStage
+      topSlack={TOP_SLACK}
+      bottomSlack={BOTTOM_SLACK}
+      bleed="/images/trail-map-bg.png"
+    >
       <span className="sr-only">
         굿즈, 교회, 의류, 체험 4개 구역을 지나는 트레일 지도
       </span>
       <video
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 h-full w-full object-fill"
         style={{ imageRendering: "pixelated" }}
         poster="/images/trail-map-bg.png"
         autoPlay
@@ -138,6 +150,6 @@ export function TrailMap({
           onSelect={() => onSelectZone(zone.slug)}
         />
       ))}
-    </div>
+    </ArtStage>
   );
 }
