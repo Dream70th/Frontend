@@ -1,6 +1,7 @@
 "use client";
 
 import { ArtStage } from "@/components/ArtStage";
+import { TrailBackdrop } from "@/components/TrailBackdrop";
 import { TrailPath } from "@/components/TrailPath";
 import { TrailWalker } from "@/components/TrailWalker";
 import { xPct, yPct } from "@/lib/design-coordinates";
@@ -121,20 +122,7 @@ export function TrailMap({
       <span className="sr-only">
         굿즈, 교회, 의류, 체험 4개 구역을 지나는 트레일 지도
       </span>
-      <video
-        className="absolute inset-0 h-full w-full object-fill"
-        style={{ imageRendering: "pixelated" }}
-        poster="/images/trail-map-bg.png"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        aria-hidden
-      >
-        <source src="/images/trail-map-bg.webm" type="video/webm" />
-        <source src="/images/trail-map-bg.mp4" type="video/mp4" />
-      </video>
+      <TrailBackdrop />
 
       <TrailPath />
 

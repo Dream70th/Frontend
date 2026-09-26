@@ -11,6 +11,14 @@ export const metadata: Metadata = {
   title: "WHO MADE THIS TRAIL",
   description: "인천드림교회 70주년 팝업플레이스 디지털 도장판",
   manifest: "/manifest.json",
+  // Without this iOS keeps the status bar as an opaque band above the web view
+  // and the artwork stops short of the top of the screen. Translucent hands us
+  // the whole screen; the safe-area insets keep the controls clear of the clock.
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "WHO MADE THIS TRAIL",
+  },
 };
 
 export const viewport: Viewport = {
@@ -18,8 +26,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  // Let the page paint into the safe areas; LetterboxViewport keeps the actual
-  // frame inset so nothing lands under the status bar or home indicator.
+  // The artwork paints all the way into the safe areas so the app fills the
+  // screen; controls keep clear of them with the --safe-* insets instead.
   viewportFit: "cover",
 };
 

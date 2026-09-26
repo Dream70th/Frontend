@@ -65,10 +65,6 @@ export function AboutPopup({ onClose }: { onClose: () => void }) {
           제시됩니다. 예수님께서 산 위에서 가르치신 것을 직설적으로 표현하고,
           교회가 걸어온 시간을 산을 오르는 등반에 빗대었습니다.
         </Body>
-        <Body>
-          로고나 건물, 십자가 같은 시각적 종교 상징은 일부러 배제했습니다.
-          서사와 경험만으로 메시지를 전합니다.
-        </Body>
       </div>
 
       <figure className="mt-6 rounded-2xl border-2 border-dotted border-white/15 bg-white/[0.05] px-5 py-4">
