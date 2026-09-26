@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { GAME_MODULES } from "@/games";
 import type { GameResult } from "@/games/types";
-import type { Zone } from "@/components/TrailMap";
+import type { Zone } from "@/lib/zones";
 
 type StartResult = {
   ok: boolean;

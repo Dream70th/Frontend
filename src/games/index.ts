@@ -1,7 +1,7 @@
 import { CatchGame } from "@/games/CatchGame";
 import { MemoryGame } from "@/games/MemoryGame";
 import type { GameModule } from "@/games/types";
-import type { ZoneSlug } from "@/components/TrailMap";
+import type { ZoneSlug } from "@/lib/zones";
 
 /**
  * Which module each game zone plays. The sheet falls back to a "준비 중" notice

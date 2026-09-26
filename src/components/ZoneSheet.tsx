@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { GAME_MODULES } from "@/games";
-import type { Zone } from "@/components/TrailMap";
+import type { Zone } from "@/lib/zones";
 
 /** Shape returned by the `claim_code_stamp` RPC. */
 type ClaimResult = {

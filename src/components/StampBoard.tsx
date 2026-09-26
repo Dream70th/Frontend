@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { StampBoardArt } from "@/components/StampBoardArt";
-import { ZONES, type ZoneSlug } from "@/components/TrailMap";
+import { ZONES, type ZoneSlug } from "@/lib/zones";
 
 /** The stamp board on its own screen, over the artwork the mini-games use. */
 

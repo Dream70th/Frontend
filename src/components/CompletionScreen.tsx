@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { StampBoardArt } from "@/components/StampBoardArt";
-import { ZONES } from "@/components/TrailMap";
+import { ZONES } from "@/lib/zones";
 
 /**
  * The payoff, shown once when the fourth stamp lands.

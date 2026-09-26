@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { ZONES } from "@/components/TrailMap";
+import { ZONES } from "@/lib/zones";
 
 /**
  * The guide a visitor sees once, right after their first Google sign-in, and

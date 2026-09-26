@@ -2,12 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { AppViewport } from "@/components/AppViewport";
-import {
-  TrailMap,
-  ZONES,
-  type Zone,
-  type ZoneSlug,
-} from "@/components/TrailMap";
+import { TrailMap } from "@/components/TrailMap";
+import { ZONES, type Zone, type ZoneSlug } from "@/lib/zones";
 import { SideMenu } from "@/components/SideMenu";
 import { ZoneSheet } from "@/components/ZoneSheet";
 import { GameShell } from "@/components/GameShell";

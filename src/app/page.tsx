@@ -1,5 +1,5 @@
 import { MapScreen } from "@/components/MapScreen";
-import { ZONES } from "@/components/TrailMap";
+import { ZONES } from "@/lib/zones";
 import { clearedZonesOf, getMyProgress } from "@/lib/progress";
 import {
   getDepartments,

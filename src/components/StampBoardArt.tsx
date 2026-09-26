@@ -1,4 +1,4 @@
-import { ZONES, type ZoneSlug } from "@/components/TrailMap";
+import { ZONES, type ZoneSlug } from "@/lib/zones";
 
 /**
  * The board artwork from Figma (56:31), with a stamp per zone.

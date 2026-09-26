@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import type { ZoneSlug } from "@/components/TrailMap";
+import type { ZoneSlug } from "@/lib/zones";
 
 /**
  * One row of the `get_my_progress()` RPC. Mirrors the return table in
