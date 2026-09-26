@@ -86,6 +86,8 @@ export function CatchGame({
   // The simulation lives in refs so the animation frame stays pure state-wise;
   // React state exists only to paint what the refs already decided.
   const basketX = useRef(50);
+  /** Whether a finger is down and the basket should follow it. */
+  const dragging = useRef(false);
   const itemsRef = useRef<FallingItem[]>([]);
   const scoreRef = useRef(0);
   const finished = useRef(false);
@@ -301,11 +303,30 @@ export function CatchGame({
   return (
     <div
       ref={areaRef}
-      onPointerDown={(event) => moveBasket(event.clientX)}
+      onPointerDown={(event) => {
+        // Let the pause button have its own taps.
+        if (event.target instanceof Element && event.target.closest("button")) {
+          return;
+        }
+        // Capture so the basket keeps following even if the finger strays over
+        // a falling sprite or off the edge of the play area.
+        event.currentTarget.setPointerCapture(event.pointerId);
+        dragging.current = true;
+        moveBasket(event.clientX);
+      }}
       onPointerMove={(event) => {
-        if (event.pressure > 0 || event.pointerType === "mouse") {
+        // iOS reports pressure 0 for an ordinary touch, so asking for pressure
+        // here meant the basket never moved on an iPhone: it jumped to wherever
+        // the finger landed and then stayed there. Track the drag ourselves.
+        if (dragging.current || event.pointerType === "mouse") {
           moveBasket(event.clientX);
         }
+      }}
+      onPointerUp={() => {
+        dragging.current = false;
+      }}
+      onPointerCancel={() => {
+        dragging.current = false;
       }}
       className={`relative h-full w-full touch-none overflow-hidden bg-cover bg-bottom ${
         hit === "bomb" ? "animate-bomb-shake" : ""

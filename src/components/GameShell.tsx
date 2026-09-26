@@ -138,9 +138,17 @@ export function GameShell({
   const Game = gameModule.Component;
 
   return (
-    <div className="absolute inset-0 z-20 flex flex-col bg-[#171512] pt-[var(--safe-top)] pb-[var(--safe-bottom)]">
+    <div
+      className={`absolute inset-0 z-20 flex flex-col bg-[#171512] ${
+        phase === "playing"
+          ? ""
+          : "pt-[var(--safe-top)] pb-[var(--safe-bottom)]"
+      }`}
+    >
       {/* While playing, the whole frame belongs to the game: it fills the
-          artwork edge to edge and draws its own HUD on top. */}
+          screen edge to edge, under the status bar and the home indicator, and
+          pads its own HUD off them. Insetting the shell here instead would
+          leave the game's artwork framed in black bands. */}
       {phase !== "playing" && (
         <div className="flex items-center justify-between px-4 py-3">
           <span className="text-[11px] font-bold tracking-[0.2em] text-white/40">
