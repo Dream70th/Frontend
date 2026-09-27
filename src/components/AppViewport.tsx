@@ -10,14 +10,15 @@ import { ViewportProbe } from "@/components/ViewportProbe";
  * Artwork that *does* have a fixed ratio goes inside an `ArtStage`, which fits
  * it into this box on its own terms.
  *
- * Fixed rather than `h-dvh`: on iOS the viewport units and `height: 100%`
- * disagree by the height of the translucent status bar, and a box measured in
- * either could come up short of the screen. A fixed box pinned to all four
- * edges is the screen by definition.
+ * Sized with --app-height rather than a viewport unit: on an iPhone home-screen
+ * app, dvh comes back a status bar shorter than the screen. See globals.css.
  */
 export function AppViewport({ children }: { children: ReactNode }) {
   return (
-    <div className="bg-letterbox fixed inset-0 overflow-hidden">
+    <div
+      className="bg-letterbox fixed inset-x-0 top-0 overflow-hidden"
+      style={{ height: "var(--app-height)" }}
+    >
       {children}
       <ViewportProbe />
     </div>

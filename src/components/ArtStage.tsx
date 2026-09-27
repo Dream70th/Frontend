@@ -43,7 +43,7 @@ export function ArtStage({
   // The tallest the art may be drawn: any taller and the crop would eat past
   // the slack. Never shorter than the screen, or a gap would open at the foot.
   const capFactor = DESIGN_HEIGHT / (DESIGN_HEIGHT - topSlack - bottomSlack);
-  const height = `max(100dvh, min(calc(100dvw * ${NATURAL}), calc(100dvh * ${capFactor})))`;
+  const height = `max(var(--app-height), min(calc(100dvw * ${NATURAL}), calc(var(--app-height) * ${capFactor})))`;
 
   // Full screen width, unless that would distort the art past the limit.
   const minRatio = NATURAL * (1 - maxStretch);
@@ -53,7 +53,7 @@ export function ArtStage({
   // Slide the art up only once the bottom slack has been used up, so the top —
   // where the summit and stage 4 live — is the last thing to go.
   const keep = 1 - bottomSlack / DESIGN_HEIGHT;
-  const top = `min(0px, calc(100dvh - var(--art-h) * ${keep}))`;
+  const top = `min(0px, calc(var(--app-height) - var(--art-h) * ${keep}))`;
 
   const bleedStyle: CSSProperties = {
     backgroundImage: `url('${bleed}')`,
