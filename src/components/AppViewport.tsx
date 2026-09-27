@@ -8,11 +8,14 @@ import type { ReactNode } from "react";
  *
  * Artwork that *does* have a fixed ratio goes inside an `ArtStage`, which fits
  * it into this box on its own terms.
+ *
+ * Fixed rather than `h-dvh`: on iOS the viewport units and `height: 100%`
+ * disagree by the height of the translucent status bar, and a box measured in
+ * either could come up short of the screen. A fixed box pinned to all four
+ * edges is the screen by definition.
  */
 export function AppViewport({ children }: { children: ReactNode }) {
   return (
-    <div className="bg-letterbox relative h-dvh w-full overflow-hidden">
-      {children}
-    </div>
+    <div className="bg-letterbox fixed inset-0 overflow-hidden">{children}</div>
   );
 }

@@ -110,6 +110,18 @@
   }
 }
 
+/* The app is one screen and never scrolls as a document; anything that scrolls
+   does it inside its own box. Saying so here matters on iOS: with the
+   translucent status bar, `height: 100%` and `100dvh` disagree by the height of
+   that bar, which left the page a status bar taller than the screen and opening
+   scrolled to the bottom, with a band of background along the foot. */
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

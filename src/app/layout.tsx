@@ -36,8 +36,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="ko" className={`${inter.variable} h-full`}>
-      <body className="flex h-full min-h-dvh flex-col antialiased">
+    <html lang="ko" className={inter.variable}>
+      <body className="antialiased">
         {children}
       </body>
     </html>
