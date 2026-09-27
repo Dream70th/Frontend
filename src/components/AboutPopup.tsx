@@ -52,7 +52,7 @@ export function AboutPopup({ onClose }: { onClose: () => void }) {
           <dd className="mt-1 text-sm font-bold text-white">
             인천 드림교회 1층
             <br />
-            드림홀 &amp; 카페
+            비전홀 &amp; 카페
           </dd>
         </div>
       </dl>
