@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { ViewportProbe } from "@/components/ViewportProbe";
 
 /**
  * The app's outermost box: exactly the screen, edge to edge, always. Nothing
@@ -10,8 +9,9 @@ import { ViewportProbe } from "@/components/ViewportProbe";
  * Artwork that *does* have a fixed ratio goes inside an `ArtStage`, which fits
  * it into this box on its own terms.
  *
- * Sized with --app-height rather than a viewport unit: on an iPhone home-screen
- * app, dvh comes back a status bar shorter than the screen. See globals.css.
+ * Height comes from --app-height rather than a viewport unit written inline,
+ * so there is one place to change if a platform starts reporting the viewport
+ * differently — which iOS did. See globals.css.
  */
 export function AppViewport({ children }: { children: ReactNode }) {
   return (
@@ -20,7 +20,6 @@ export function AppViewport({ children }: { children: ReactNode }) {
       style={{ height: "var(--app-height)" }}
     >
       {children}
-      <ViewportProbe />
     </div>
   );
 }
