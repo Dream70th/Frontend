@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { ViewportProbe } from "@/components/ViewportProbe";
 
 /**
  * The app's outermost box: exactly the screen, edge to edge, always. Nothing
@@ -16,6 +17,9 @@ import type { ReactNode } from "react";
  */
 export function AppViewport({ children }: { children: ReactNode }) {
   return (
-    <div className="bg-letterbox fixed inset-0 overflow-hidden">{children}</div>
+    <div className="bg-letterbox fixed inset-0 overflow-hidden">
+      {children}
+      <ViewportProbe />
+    </div>
   );
 }
