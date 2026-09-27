@@ -111,27 +111,15 @@
 }
 
 /* How tall the app is. Everything that needs the height of the screen measures
-   itself against this rather than a viewport unit.
+   itself against this rather than a viewport unit, so there is one place to
+   change if a platform starts reporting it differently.
 
-   An iPhone running this from the home screen with a translucent status bar
-   reports a viewport one status bar shorter than the frame it actually
-   occupies: on a 402x874 device, innerHeight, 100svh and 100dvh all come back
-   812 while the screen, 100vh and 100lvh say 874, and the safe-area inset is
-   the missing 62. WebKit moves the web view's origin up under the status bar
-   without growing it. Anything sized in dvh therefore stopped 62pt short of
-   the bottom of the screen, leaving a band of page background there.
-
-   Standalone has no browser chrome for the dynamic units to account for, so
-   the large viewport is the honest measure; in a browser tab it is not, and
-   dvh stays. */
+   dvh is the one to trust. On an iPhone home-screen app, 100vh reported 874 on
+   a screen whose web view was only 812 tall — WebKit sizes vh from the screen
+   rather than the frame — and a box built on it claimed the full height while
+   painting 62pt short. */
 :root {
   --app-height: 100dvh;
-}
-
-@media (display-mode: standalone) {
-  :root {
-    --app-height: 100vh;
-  }
 }
 
 /* The app is one screen and never scrolls as a document; anything that scrolls

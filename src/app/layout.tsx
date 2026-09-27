@@ -11,12 +11,16 @@ export const metadata: Metadata = {
   title: "WHO MADE THIS TRAIL",
   description: "인천드림교회 70주년 팝업플레이스 디지털 도장판",
   manifest: "/manifest.json",
-  // Without this iOS keeps the status bar as an opaque band above the web view
-  // and the artwork stops short of the top of the screen. Translucent hands us
-  // the whole screen; the safe-area insets keep the controls clear of the clock.
+  // Not black-translucent. That style lifts the web view's origin up under the
+  // status bar without growing it, so the view stays screen-minus-status-bar
+  // tall and the bottom 62pt of the screen is simply not part of it — measured
+  // on an iPhone 16 Pro, a band no CSS could paint into, however the box was
+  // sized. iOS gives a home-screen app the screen minus the status bar either
+  // way; the only choice is where that goes. Above the app, carrying the clock,
+  // it reads as an ordinary iOS status bar. Below it, it is a dead black strip.
   appleWebApp: {
     capable: true,
-    statusBarStyle: "black-translucent",
+    statusBarStyle: "black",
     title: "WHO MADE THIS TRAIL",
   },
   // `capable` above only emits the modern `mobile-web-app-capable`, and iOS has
