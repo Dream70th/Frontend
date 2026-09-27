@@ -53,11 +53,14 @@ export function Contributors({ onClose }: { onClose: () => void }) {
             <h4 className="text-[13px] font-bold tracking-wide text-[#FF5E00]">
               {team.name}
             </h4>
-            <ul className="mt-2.5 flex flex-wrap gap-x-2 gap-y-2">
+            {/* Five to a row, so the teams line up as columns down the page
+                rather than reflowing on name length. Each name fills its cell,
+                which keeps the grid honest whatever the name's width. */}
+            <ul className="mt-2.5 grid grid-cols-5 gap-1.5">
               {team.members.map((member) => (
                 <li
                   key={member}
-                  className="rounded-full bg-white/8 px-3 py-1 text-[13px] font-semibold text-white/80"
+                  className="rounded-full bg-white/8 px-1 py-1 text-center text-[12.5px] font-semibold whitespace-nowrap text-white/80"
                 >
                   {member}
                 </li>
