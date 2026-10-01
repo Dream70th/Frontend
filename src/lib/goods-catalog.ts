@@ -132,15 +132,9 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
           { name: "잠든 예수님", price: 8000 },
         ],
       },
-      {
-        id: "tumbler",
-        name: "텀블러",
-        options: [
-          { name: "블랙", price: 50000 },
-          { name: "카키", price: 50000 },
-          { name: "화이트", price: 50000 },
-        ],
-      },
+      // 텀블러(블랙·카키·화이트, 노션 기준 50,000원)는 뺐다. 가격이 다른
+      // 굿즈와 한 자릿수 차이라 확인이 필요하다는 판단. 다시 넣을 때는
+      // 노션 판매가 DB의 값을 확인하고 옮길 것.
       {
         id: "bookclip",
         name: "북클립",
