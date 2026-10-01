@@ -5,6 +5,8 @@ import { Body, Eyebrow, InfoSheet, SectionTitle } from "@/components/InfoSheet";
 import {
   GOODS_CATALOG,
   formatPrice,
+  priceRange,
+  uniformPrice,
   type GoodsItem,
 } from "@/lib/goods-catalog";
 
@@ -12,62 +14,83 @@ import {
  * 팝업스토어 물품 안내. 로그인 전에도 볼 수 있어야 해서 메뉴가 아니라 로그인
  * 화면에서 직접 열린다.
  *
- * 카드는 세로가 아니라 가로로 짰다. 설명이 한 줄로 끝나지 않는 물품이 있어서
- * 2열 그리드로 두면 카드마다 높이가 들쭉날쭉해지는데, 썸네일을 왼쪽에 두고
- * 글을 오른쪽에 흘리면 길이가 달라도 줄이 맞는다.
+ * 노션의 판매가 표는 색상·디자인별로 한 줄씩이라 44줄이다. 엽서 다섯 줄이
+ * 전부 1,000원인 식이어서 그대로 옮기면 같은 값만 반복된다. 그래서 물품으로
+ * 묶고 선택지는 아래에 늘어놓되, 값이 섞인 물품(키링 3,000~8,000원)만 선택지
+ * 옆에 값을 따로 붙인다 — 빠진 정보 없이 줄 수만 44에서 16으로 준다.
  */
 function GoodsCard({ item }: { item: GoodsItem }) {
-  return (
-    <li className="flex gap-3.5 rounded-2xl bg-white/6 p-3.5">
-      {item.image ? (
-        <Image
-          src={item.image}
-          alt={item.name}
-          width={176}
-          height={176}
-          className="h-[76px] w-[76px] shrink-0 rounded-xl object-cover"
-        />
-      ) : (
-        // 사진이 아직 없는 물품. 빈 칸으로 두면 줄이 무너지니 같은 크기의
-        // 자리를 지키고 산 모양 하나만 넣어 둔다.
-        <div
-          aria-hidden
-          className="flex h-[76px] w-[76px] shrink-0 items-center justify-center rounded-xl bg-white/6"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.6"
-            strokeLinejoin="round"
-            className="h-7 w-7 text-white/25"
-          >
-            <path d="M3 19h18L14 6l-3.5 6.5L8 9z" />
-          </svg>
-        </div>
-      )}
+  const uniform = uniformPrice(item);
+  const hasChoices = item.options.length > 1;
 
-      <div className="min-w-0 flex-1">
-        <div className="flex items-baseline justify-between gap-3">
-          <h5 className="truncate text-[14.5px] font-bold text-white">
-            {item.name}
-          </h5>
-          <span
-            className={`shrink-0 text-[13.5px] font-bold ${
-              item.price === null ? "text-white/35" : "text-[#FF5E00]"
-            }`}
-          >
-            {formatPrice(item.price)}
-          </span>
-        </div>
-        <p className="mt-1.5 text-[12.5px] leading-[1.65] font-medium text-white/60">
-          {item.description}
-        </p>
-        {item.note && (
-          <p className="mt-1.5 text-[11px] font-bold tracking-wide text-white/35">
-            {item.note}
-          </p>
+  return (
+    <li className="rounded-2xl bg-white/6 p-4">
+      <div className="flex gap-3.5">
+        {/* 사진이 있는 물품만 썸네일을 단다. 아직 한 장도 없는데 자리표시
+            아이콘을 전부 깔면 같은 그림 열여섯 개가 늘어설 뿐이다. */}
+        {item.image && (
+          <Image
+            src={item.image}
+            alt={item.name}
+            width={160}
+            height={160}
+            className="h-[64px] w-[64px] shrink-0 rounded-xl object-cover"
+          />
         )}
+
+        <div className="min-w-0 flex-1">
+          <div className="flex items-baseline justify-between gap-3">
+            <h5 className="truncate text-[15px] font-bold text-white">
+              {item.name}
+            </h5>
+            <span className="shrink-0 text-[13.5px] font-bold text-[#FF5E00]">
+              {uniform === null ? priceRange(item) : formatPrice(uniform)}
+            </span>
+          </div>
+
+          {item.description && (
+            <p className="mt-1.5 text-[12.5px] leading-[1.65] font-medium text-white/60">
+              {item.description}
+            </p>
+          )}
+
+          {hasChoices &&
+            (uniform === null ? (
+              // 값이 섞인 물품: 선택지마다 값을 붙인다.
+              <ul className="mt-2.5 flex flex-col gap-1">
+                {item.options.map((option) => (
+                  <li
+                    key={option.name}
+                    className="flex items-baseline justify-between gap-3 text-[12.5px]"
+                  >
+                    <span className="truncate font-medium text-white/55">
+                      {option.name}
+                    </span>
+                    <span className="shrink-0 font-bold text-white/80">
+                      {formatPrice(option.price)}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <ul className="mt-2.5 flex flex-wrap gap-1.5">
+                {item.options.map((option) => (
+                  <li
+                    key={option.name}
+                    className="rounded-full bg-white/8 px-2.5 py-1 text-[11.5px] font-semibold text-white/60"
+                  >
+                    {option.name}
+                  </li>
+                ))}
+              </ul>
+            ))}
+
+          {item.note && (
+            <p className="mt-2 text-[11px] font-bold tracking-wide text-white/35">
+              {item.note}
+            </p>
+          )}
+        </div>
       </div>
     </li>
   );
@@ -79,8 +102,8 @@ export function GoodsCatalog({ onClose }: { onClose: () => void }) {
       <Eyebrow>WHO MADE THIS TRAIL</Eyebrow>
       <SectionTitle>현장에서 만나는 물품</SectionTitle>
       <Body>
-        인천 드림교회 70주년 팝업플레이스에서 준비한 굿즈와 의류입니다. 수량이
-        한정되어 있어 조기에 마감될 수 있습니다.
+        인천 드림교회 70주년 팝업플레이스에서 준비한 굿즈와 의류입니다. 색상과
+        디자인은 물품마다 아래에 적어두었습니다.
       </Body>
 
       <div className="mt-7 flex flex-col gap-7">
