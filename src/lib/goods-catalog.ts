@@ -51,6 +51,7 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
     items: [
       {
         id: "tincase",
+        image: "/images/goods-catalog/tincase.png",
         name: "틴케이스",
         options: [
           { name: "선글라스 예수님", price: 5000 },
@@ -59,6 +60,7 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
       },
       {
         id: "keyring",
+        image: "/images/goods-catalog/keyring.png",
         name: "키링",
         options: [
           { name: "십자가형", price: 3000 },
@@ -69,6 +71,7 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
       },
       {
         id: "pick",
+        image: "/images/goods-catalog/pick.png",
         name: "피크",
         options: [
           { name: "투명 · 파랑", price: 1500 },
@@ -80,6 +83,7 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
       },
       {
         id: "cleaner",
+        image: "/images/goods-catalog/cleaner.png",
         name: "멀티클리너",
         options: [
           { name: "초원 산", price: 4000 },
@@ -90,6 +94,7 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
       },
       {
         id: "sticker",
+        image: "/images/goods-catalog/sticker.png",
         name: "스티커",
         options: [
           { name: "파랑", price: 1500 },
@@ -98,6 +103,7 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
       },
       {
         id: "postcard",
+        image: "/images/goods-catalog/postcard.png",
         name: "엽서",
         options: [
           { name: "예수님과 아이", price: 1000 },
@@ -109,6 +115,7 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
       },
       {
         id: "griptok",
+        image: "/images/goods-catalog/griptok.png",
         name: "그립톡",
         options: [
           { name: "산책 풍경", price: 5000 },
@@ -117,6 +124,7 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
       },
       {
         id: "magnet",
+        image: "/images/goods-catalog/magnet.png",
         name: "마그넷 세트",
         options: [
           { name: "TRACES", price: 15000 },
@@ -125,6 +133,7 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
       },
       {
         id: "cardsticker",
+        image: "/images/goods-catalog/cardsticker.png",
         name: "카드 스티커",
         options: [
           { name: "예수님 인형", price: 8000 },
@@ -157,6 +166,7 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
     items: [
       {
         id: "longsleeve",
+        image: "/images/goods-catalog/longsleeve.png",
         name: "롱슬리브",
         options: [
           { name: "화이트", price: 20000 },
@@ -166,6 +176,7 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
       },
       {
         id: "vest",
+        image: "/images/goods-catalog/vest.png",
         name: "등산조끼",
         options: [
           { name: "화이트", price: 15000 },
@@ -174,6 +185,7 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
       },
       {
         id: "cap",
+        image: "/images/goods-catalog/cap.png",
         name: "모자",
         options: [
           { name: "블랙", price: 25000 },
@@ -182,6 +194,7 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
       },
       {
         id: "socks",
+        image: "/images/goods-catalog/socks.png",
         name: "양말",
         options: [{ name: "양말", price: 5000 }],
       },

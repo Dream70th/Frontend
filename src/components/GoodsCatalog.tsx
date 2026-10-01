@@ -26,16 +26,33 @@ function GoodsCard({ item }: { item: GoodsItem }) {
   return (
     <li className="rounded-2xl bg-white/6 p-4">
       <div className="flex gap-3.5">
-        {/* 사진이 있는 물품만 썸네일을 단다. 아직 한 장도 없는데 자리표시
-            아이콘을 전부 깔면 같은 그림 열여섯 개가 늘어설 뿐이다. */}
-        {item.image && (
+        {/* 사진은 흰 바탕 정사각형으로 맞춰 두었다. 북클립과 포토 카드만
+            노션에 사진이 없는데, 그 두 줄만 썸네일을 빼면 글머리가 어긋나므로
+            같은 크기의 자리를 지킨다. */}
+        {item.image ? (
           <Image
             src={item.image}
             alt={item.name}
-            width={160}
-            height={160}
-            className="h-[64px] w-[64px] shrink-0 rounded-xl object-cover"
+            width={192}
+            height={192}
+            className="h-16 w-16 shrink-0 rounded-xl object-cover"
           />
+        ) : (
+          <div
+            aria-hidden
+            className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-white/6"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinejoin="round"
+              className="h-7 w-7 text-white/25"
+            >
+              <path d="M3 19h18L14 6l-3.5 6.5L8 9z" />
+            </svg>
+          </div>
         )}
 
         <div className="min-w-0 flex-1">
