@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { IntroSplash } from "@/components/IntroSplash";
 import "./globals.css";
 
 const inter = Inter({
@@ -43,6 +44,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="ko" className={inter.variable}>
       <body className="antialiased">
         {children}
+        {/* 모든 화면 위에 덮인다. 로그인 전이든 지도든 "앱을 연 순간"은 같다. */}
+        <IntroSplash />
       </body>
     </html>
   );
