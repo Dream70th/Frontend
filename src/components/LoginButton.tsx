@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { GoogleLogo } from "@/components/GoogleLogo";
+import { TrailButton } from "@/components/TrailButton";
 
 /**
  * Positions itself nowhere on purpose. It shares a column with 물품 보기 on the
@@ -26,14 +27,9 @@ export function LoginButton({ isInAppBrowser }: { isInAppBrowser: boolean }) {
   }
 
   return (
-    <button
-      type="button"
-      onClick={handleSignIn}
-      disabled={isInAppBrowser || isLoading}
-      className="border-trail-orange flex w-max items-center justify-center gap-2.5 rounded-full border-[3px] border-dotted bg-[#D9C27E] px-6 py-3 text-base font-bold whitespace-nowrap text-black shadow-[0_4px_0_0_#cc4b00] transition-all active:translate-y-1 active:shadow-[0_1px_0_0_#cc4b00] disabled:opacity-60 disabled:active:translate-y-0 disabled:active:shadow-[0_4px_0_0_#cc4b00]"
-    >
+    <TrailButton onClick={handleSignIn} disabled={isInAppBrowser || isLoading}>
       <GoogleLogo className="h-6 w-6" />
       Google로 시작하기
-    </button>
+    </TrailButton>
   );
 }

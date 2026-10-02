@@ -69,9 +69,13 @@ export function ArtStage({
       style={
         {
           "--art-h": height,
+          // 0 또는 음수. 화면 위쪽이 그림의 어디에 걸려 있는지를 뜻하므로,
+          // 자식이 화면 바닥까지의 거리를 재려면 이 값이 필요하다
+          // (화면 바닥 = --app-height - --art-top, 이 상자 기준).
+          "--art-top": top,
           width,
           height: "var(--art-h)",
-          top,
+          top: "var(--art-top)",
           transform: "translateX(-50%)",
         } as CSSProperties
       }

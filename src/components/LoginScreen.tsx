@@ -5,10 +5,20 @@ import { useState } from "react";
 import { AppViewport } from "@/components/AppViewport";
 import { ArtStage } from "@/components/ArtStage";
 import { LoginButton } from "@/components/LoginButton";
+import { TrailButton } from "@/components/TrailButton";
 import { InAppBrowserBanner } from "@/components/InAppBrowserBanner";
 import { GoodsCatalog } from "@/components/GoodsCatalog";
 import { hasCatalog } from "@/lib/goods-catalog";
 import { yPct } from "@/lib/design-coordinates";
+
+/**
+ * 두 버튼과 그 사이 간격을 합친 높이. 글자 크기도 패딩도 고정이라 기기와
+ * 상관없이 54 + 12 + 54 = 120px이다.
+ */
+const BUTTON_COLUMN_HEIGHT = 120;
+
+/** 버튼 묶음의 위쪽이 더는 내려갈 수 없는 선. ArtStage 기준 좌표. */
+const BUTTON_FLOOR = `calc(var(--app-height) - var(--art-top) - ${BUTTON_COLUMN_HEIGHT}px - 20px - var(--safe-bottom))`;
 
 /**
  * 로그인 화면 전체. 포스터와 버튼들, 그리고 물품 안내 시트를 함께 쥐고 있다.
@@ -40,22 +50,23 @@ export function LoginScreen({ isInAppBrowser }: { isInAppBrowser: boolean }) {
 
         {/* Only the top of the column is pinned to the poster; the buttons are
             spaced in CSS px below it, so the gap between them is identical on
-            every screen rather than shrinking with the artwork. */}
+            every screen rather than shrinking with the artwork.
+
+            On a short screen the poster scales down while the buttons keep
+            their height, and design y=673 left the second button 4px off the
+            bottom edge of an SE — close enough to clip its shadow. The floor
+            lifts the whole column instead, and binds on no phone taller than
+            that. */}
         <div
           className="absolute left-1/2 flex -translate-x-1/2 flex-col items-center gap-3"
-          style={{ top: yPct(673) }}
+          style={{ top: `min(${yPct(673)}, ${BUTTON_FLOOR})` }}
         >
           <LoginButton isInAppBrowser={isInAppBrowser} />
 
-          {/* 포스터의 호수(어두운 면) 위라 밝은 테두리가 읽히고, 오른쪽
-              카라비너와도 겹치지 않는다. 주 버튼보다 한 단계 약한 고스트
-              스타일로 두어 로그인이 먼저 눈에 들어오게 했다. */}
+          {/* 로그인 버튼과 같은 간판 모양. 포스터의 호수(어두운 면) 위라
+              베이지 바탕이 잘 읽히고, 오른쪽 카라비너와도 겹치지 않는다. */}
           {hasCatalog() && (
-            <button
-              type="button"
-              onClick={() => setShowCatalog(true)}
-              className="flex w-max items-center gap-2 rounded-full border-2 border-dotted border-white/45 px-5 py-2.5 text-[13.5px] font-bold whitespace-nowrap text-white/90 transition-colors active:bg-white/10"
-            >
+            <TrailButton onClick={() => setShowCatalog(true)}>
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -63,14 +74,14 @@ export function LoginScreen({ isInAppBrowser }: { isInAppBrowser: boolean }) {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="h-4 w-4"
+                className="h-5 w-5"
                 aria-hidden
               >
                 <path d="M4 7h16l-1.2 12.1a2 2 0 0 1-2 1.9H7.2a2 2 0 0 1-2-1.9z" />
                 <path d="M9 7V5.5a3 3 0 0 1 6 0V7" />
               </svg>
               팝업스토어 물품 보기
-            </button>
+            </TrailButton>
           )}
         </div>
       </ArtStage>
