@@ -146,11 +146,13 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
       // 노션 판매가 DB의 값을 확인하고 옮길 것.
       {
         id: "bookclip",
+        image: "/images/goods-catalog/bookclip.png",
         name: "북클립",
         options: [{ name: "북클립", price: 2000 }],
       },
       {
         id: "photocard",
+        image: "/images/goods-catalog/photocard.png",
         name: "포토 카드",
         options: [
           { name: "포도나무", price: 1500 },

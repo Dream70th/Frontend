@@ -26,15 +26,15 @@ function GoodsCard({ item }: { item: GoodsItem }) {
   return (
     <li className="rounded-2xl bg-white/6 p-4">
       <div className="flex gap-3.5">
-        {/* 사진은 흰 바탕 정사각형으로 맞춰 두었다. 북클립과 포토 카드만
-            노션에 사진이 없는데, 그 두 줄만 썸네일을 빼면 글머리가 어긋나므로
-            같은 크기의 자리를 지킨다. */}
+        {/* 사진은 흰 바탕 정사각형으로 맞춰 두었다. 지금은 열다섯 묶음 모두
+            한 장씩 있지만, 빠진 물품이 생겨도 같은 크기의 자리를 지켜 글머리가
+            어긋나지 않게 한다. */}
         {item.image ? (
           <Image
             src={item.image}
             alt={item.name}
-            width={192}
-            height={192}
+            width={256}
+            height={256}
             className="h-16 w-16 shrink-0 rounded-xl object-cover"
           />
         ) : (
@@ -138,16 +138,6 @@ export function GoodsCatalog({ onClose }: { onClose: () => void }) {
             </section>
           ),
         )}
-      </div>
-
-      <div className="mt-8 mb-2 rounded-2xl bg-[#FF5E00]/12 px-5 py-4">
-        <p className="text-[11px] font-bold tracking-[0.22em] text-[#FF5E00]">
-          2026.10.04
-        </p>
-        <p className="mt-2 text-[13px] leading-relaxed font-medium text-white/70">
-          인천 드림교회 1층 비전홀 &amp; 카페에서 만나실 수 있습니다. 가격과
-          수량은 현장 사정에 따라 달라질 수 있습니다.
-        </p>
       </div>
     </InfoSheet>
   );
