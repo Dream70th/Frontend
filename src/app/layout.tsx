@@ -9,7 +9,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "WHO MADE THIS TRAIL",
-  description: "인천드림교회 70주년 팝업플레이스 디지털 도장판",
+  description: "드림교회 70주년 팝업플레이스 디지털 도장판",
   manifest: "/manifest.json",
   // Not black-translucent. That style lifts the web view's origin up under the
   // status bar without growing it, so the view stays screen-minus-status-bar

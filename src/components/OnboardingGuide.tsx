@@ -134,7 +134,7 @@ function StorySlide() {
       <p className="mt-4 text-sm leading-relaxed font-medium text-white/65">
         70년 전, 우리는 누군가와 함께 이 길을 걸었습니다.
         <br />
-        인천드림교회 70주년을 맞아,
+        드림교회 70주년을 맞아,
         <br />그 발자취를 따라 걷는 트레일을 열었습니다.
       </p>
     </>

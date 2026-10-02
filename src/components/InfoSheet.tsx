@@ -4,7 +4,7 @@ import { useEffect, type ReactNode } from "react";
 
 /**
  * Full-frame scrollable overlay for the reading screens reached from the menu
- * (팝업스토어 소개, 로고 소개). The guide is a paged carousel; these are long
+ * (팝업플레이스 소개, 로고 소개). The guide is a paged carousel; these are long
  * copy, so they scroll instead.
  */
 export function InfoSheet({

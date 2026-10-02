@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Body, Eyebrow, InfoSheet, SectionTitle } from "@/components/InfoSheet";
 
 /**
- * 팝업스토어 소개. Copy comes from the team's 보고서 in Notion (§1-1 컨셉 설명,
+ * 팝업플레이스 소개. Copy comes from the team's 보고서 in Notion (§1-1 컨셉 설명,
  * §1-3 포스터 설명) — kept close to their wording rather than rewritten.
  */
 
@@ -18,10 +18,10 @@ const SPACE_NOTES = [
 
 export function AboutPopup({ onClose }: { onClose: () => void }) {
   return (
-    <InfoSheet title="팝업스토어 소개" onClose={onClose}>
+    <InfoSheet title="팝업플레이스 소개" onClose={onClose}>
       <Image
         src="/images/about/poster.jpg"
-        alt="WHO MADE THIS TRAIL 팝업스토어 포스터"
+        alt="WHO MADE THIS TRAIL 팝업플레이스 포스터"
         width={900}
         height={1252}
         className="h-auto w-full rounded-2xl border-2 border-white/10"
@@ -32,7 +32,7 @@ export function AboutPopup({ onClose }: { onClose: () => void }) {
         <Eyebrow>70TH ANNIVERSARY</Eyebrow>
         <SectionTitle>WHO MADE THIS TRAIL</SectionTitle>
         <Body>
-          인천 드림교회 70주년을 기념하는 팝업스토어입니다. 인생의 여정을 하나의
+          드림교회 70주년을 기념하는 팝업플레이스입니다. 인생의 여정을 하나의
           트레일에 빗대어, 걸어온 길과 앞으로 걸어갈 길을 함께 생각해보는
           공간으로 꾸몄습니다.
         </Body>
@@ -50,7 +50,7 @@ export function AboutPopup({ onClose }: { onClose: () => void }) {
             PLACE
           </dt>
           <dd className="mt-1 text-sm font-bold text-white">
-            인천 드림교회 1층
+            드림교회 1층
             <br />
             비전홀 &amp; 카페
           </dd>

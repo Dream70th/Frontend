@@ -12,7 +12,7 @@ import {
 } from "@/lib/goods-catalog";
 
 /**
- * 팝업스토어 물품 안내. 로그인 전에도 볼 수 있어야 해서 로그인 화면에서 바로
+ * 팝업플레이스 물품 안내. 로그인 전에도 볼 수 있어야 해서 로그인 화면에서 바로
  * 열리고, 들어온 뒤에는 메뉴에서 다시 열린다.
  *
  * 물품은 색상·디자인별로 타일을 깐다. 노션의 판매가 표는 변종마다 한 줄이라
@@ -116,11 +116,11 @@ function GoodsCard({ item }: { item: GoodsItem }) {
 
 export function GoodsCatalog({ onClose }: { onClose: () => void }) {
   return (
-    <InfoSheet title="팝업스토어 물품" onClose={onClose}>
+    <InfoSheet title="팝업플레이스 물품" onClose={onClose}>
       <Eyebrow>WHO MADE THIS TRAIL</Eyebrow>
       <SectionTitle>현장에서 만나는 물품</SectionTitle>
       <Body>
-        인천 드림교회 70주년 팝업플레이스에서 준비한 굿즈와 의류입니다. 색상과
+        드림교회 70주년 팝업플레이스에서 준비한 굿즈와 의류입니다. 색상과
         디자인은 물품마다 아래에 늘어놓았습니다.
       </Body>
 
@@ -146,7 +146,7 @@ export function GoodsCatalog({ onClose }: { onClose: () => void }) {
           2026.10.04
         </p>
         <p className="mt-2 text-[13px] leading-relaxed font-medium text-white/70">
-          인천 드림교회 1층 비전홀 &amp; 카페에서 만나실 수 있습니다. 가격과
+          드림교회 1층 비전홀 &amp; 카페에서 만나실 수 있습니다. 가격과
           수량은 현장 사정에 따라 달라질 수 있습니다.
         </p>
       </div>

@@ -80,7 +80,7 @@ export function LoginScreen({ isInAppBrowser }: { isInAppBrowser: boolean }) {
                 <path d="M4 7h16l-1.2 12.1a2 2 0 0 1-2 1.9H7.2a2 2 0 0 1-2-1.9z" />
                 <path d="M9 7V5.5a3 3 0 0 1 6 0V7" />
               </svg>
-              팝업스토어 물품 보기
+              팝업플레이스 물품 보기
             </TrailButton>
           )}
         </div>
