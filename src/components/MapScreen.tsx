@@ -11,6 +11,7 @@ import { OnboardingGuide } from "@/components/OnboardingGuide";
 import { AboutPopup } from "@/components/AboutPopup";
 import { AboutLogo } from "@/components/AboutLogo";
 import { Contributors } from "@/components/Contributors";
+import { GoodsCatalog } from "@/components/GoodsCatalog";
 import { StampBoard } from "@/components/StampBoard";
 import { SignupForm } from "@/components/SignupForm";
 import { CompletionScreen } from "@/components/CompletionScreen";
@@ -59,7 +60,7 @@ export function MapScreen({
   const [celebrationSeen, setCelebrationSeen] = useState(false);
   const celebrating = needsCelebration && !celebrationSeen;
   const [info, setInfo] = useState<
-    "popup" | "logo" | "contributors" | "board" | null
+    "popup" | "goods" | "logo" | "contributors" | "board" | null
   >(null);
 
   // The pair always start at the trailhead, where the Figma frame puts them —
@@ -99,6 +100,7 @@ export function MapScreen({
       <SideMenu
         onOpenGuide={() => setGuide("manual")}
         onOpenPopupIntro={() => setInfo("popup")}
+        onOpenGoods={() => setInfo("goods")}
         onOpenLogoIntro={() => setInfo("logo")}
         onOpenContributors={() => setInfo("contributors")}
         onOpenStampBoard={() => setInfo("board")}
@@ -152,6 +154,7 @@ export function MapScreen({
         />
       )}
       {info === "popup" && <AboutPopup onClose={() => setInfo(null)} />}
+      {info === "goods" && <GoodsCatalog onClose={() => setInfo(null)} />}
       {info === "logo" && <AboutLogo onClose={() => setInfo(null)} />}
       {info === "contributors" && (
         <Contributors onClose={() => setInfo(null)} />

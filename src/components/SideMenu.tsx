@@ -3,16 +3,19 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { hasCatalog } from "@/lib/goods-catalog";
 
 export function SideMenu({
   onOpenGuide,
   onOpenPopupIntro,
+  onOpenGoods,
   onOpenLogoIntro,
   onOpenContributors,
   onOpenStampBoard,
 }: {
   onOpenGuide: () => void;
   onOpenPopupIntro: () => void;
+  onOpenGoods: () => void;
   onOpenLogoIntro: () => void;
   onOpenContributors: () => void;
   onOpenStampBoard: () => void;
@@ -112,6 +115,11 @@ export function SideMenu({
         <ul className="flex-1 py-2">
           {[
             { label: "팝업스토어 소개", open: onOpenPopupIntro },
+            // 로그인 화면에서만 볼 수 있으면 들어온 뒤로는 가격을 다시 찾을
+            // 길이 없다. 현장에서 값을 되짚어 보는 쪽이 더 잦다.
+            ...(hasCatalog()
+              ? [{ label: "팝업스토어 물품", open: onOpenGoods }]
+              : []),
             { label: "로고 소개", open: onOpenLogoIntro },
             { label: "내 도장판", open: onOpenStampBoard },
             { label: "Contributors", open: onOpenContributors },
