@@ -57,8 +57,11 @@ export function LoginScreen({ isInAppBrowser }: { isInAppBrowser: boolean }) {
             bottom edge of an SE — close enough to clip its shadow. The floor
             lifts the whole column instead, and binds on no phone taller than
             that. */}
+        {/* w-max: 열의 폭을 더 긴 버튼이 정하고, 버튼은 둘 다 w-full이라
+            그 폭을 똑같이 채운다. 두 버튼의 폭을 숫자로 박아두지 않아도
+            글자가 바뀔 때마다 알아서 같이 간다. */}
         <div
-          className="absolute left-1/2 flex -translate-x-1/2 flex-col items-center gap-3"
+          className="absolute left-1/2 flex w-max -translate-x-1/2 flex-col gap-3"
           style={{ top: `min(${yPct(673)}, ${BUTTON_FLOOR})` }}
         >
           <LoginButton isInAppBrowser={isInAppBrowser} />
