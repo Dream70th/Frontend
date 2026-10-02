@@ -22,8 +22,11 @@ export function AboutPopup({ onClose }: { onClose: () => void }) {
       <Image
         src="/images/about/poster.jpg"
         alt="WHO MADE THIS TRAIL 팝업플레이스 포스터"
-        width={900}
-        height={1252}
+        width={1200}
+        height={1669}
+        // 시트 너비를 거의 다 쓴다. sizes가 없으면 next/image가 작은 쪽을
+        // 골라 3배율 화면에서 포스터 글씨가 뭉갠다.
+        sizes="100vw"
         className="h-auto w-full rounded-2xl border-2 border-white/10"
         priority
       />
