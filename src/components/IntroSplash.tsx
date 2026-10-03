@@ -14,7 +14,9 @@ import { useEffect, useState } from "react";
  * sessionStorage는 그 왕복을 넘어 살아남으므로 "앱을 연 순간"에만 맞춰 뜬다.
  */
 
-const DURATION_MS = 1800;
+// 마지막 동작(점선 트레일)이 1.65초에 끝난다. 거기서 곧바로 걷으면 글자를
+// 읽을 틈이 없어, 다 멎고 0.8초쯤 머문 뒤 사라지게 둔다.
+const DURATION_MS = 2800;
 const FADE_MS = 320;
 const SEEN_KEY = "wmtt-intro-seen";
 
@@ -49,7 +51,10 @@ export function IntroSplash() {
     // "봤다" 표시는 시작할 때가 아니라 끝날 때 적는다. 개발 모드의 Strict
     // Mode는 effect를 두 번 돌리는데, 시작할 때 적으면 첫 번째가 적은 것을
     // 두 번째가 읽어 인트로가 한 프레임도 안 보이고 사라진다.
-    const leaving = setTimeout(() => setPhase("leaving"), DURATION_MS - FADE_MS);
+    const leaving = setTimeout(
+      () => setPhase("leaving"),
+      DURATION_MS - FADE_MS,
+    );
     const done = setTimeout(() => {
       markSeen();
       setPhase("done");
