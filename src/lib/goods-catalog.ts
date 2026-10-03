@@ -51,16 +51,17 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
     slug: "goods",
     name: "굿즈",
     items: [
-      // 70주년 기념 제작품 셋을 한 묶음으로 둔다. 셋이라 타일 한 줄에 꼭
-      // 맞고, 값이 다른 굿즈와 자릿수가 달라 목록 끝에 두면 못 보고
-      // 지나치기 쉬워 앞에 세웠다. 수량·구성 안내는 물품마다 다르지만
-      // 꼬리말은 묶음에 하나라 둘을 한 줄에 적는다.
+      // 70주년 기념 제작품을 한 묶음으로 둔다. 값이 다른 굿즈와 자릿수가
+      // 달라 목록 끝에 두면 못 보고 지나치기 쉬워 앞에 세웠다. 타일은 싼
+      // 것부터 왼쪽에 놓는다. 수량·구성 안내는 물품마다 다르지만 꼬리말은
+      // 묶음에 하나라 한 줄에 몰아 적는다.
       {
         id: "dreamgoods",
         name: "드림교회 굿즈",
         options: [
+          { name: "70주년사", price: 20000, image: img("history-0") },
           { name: "레고", price: 50000, image: img("lego-0") },
-          { name: "도자기 오브제", price: 100000, image: img("ceramic-0") },
+          { name: "도자기 오브제", price: 80000, image: img("ceramic-0") },
           {
             name: "십자가 미니어처",
             price: 200000,
