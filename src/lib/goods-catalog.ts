@@ -60,14 +60,14 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
         name: "드림교회 굿즈",
         options: [
           { name: "레고", price: 50000, image: img("lego-0") },
+          { name: "도자기 오브제", price: 100000, image: img("ceramic-0") },
           {
             name: "십자가 미니어처",
             price: 200000,
             image: img("cross-0"),
           },
-          { name: "도자기 오브제", price: 100000, image: img("ceramic-0") },
         ],
-        note: "레고 100개 한정 · 도자기 전자초 포함",
+        note: "레고 100개 한정, 도자기 오브제 전자초 포함",
       },
       {
         id: "tincase",
