@@ -78,12 +78,22 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
           { name: "초록 배경 예수님", price: 5000, image: img("tincase-1") },
         ],
       },
+      // 키캡은 4구와 1구가 아주 다른 물건이다. 굿즈팀 시트에서도 행이
+      // 따로고(4구 원가 5,350 / 1구 8,000) 사진도 따로다. 괄호를 떼면
+      // 둘을 구분할 길이 사라지므로 이름에 붙여 둔다. 둘을 나란히 둔
+      // 것도 그래서다 — 값이 아니라 비교가 먼저인 자리다.
+      //
+      // 사진 번호가 순서와 어긋나는 건 일부러다. keyring-1 은 원래부터
+      // 1구 사진이었고(4구 값에 잘못 붙어 있었다), 파일을 덮어쓰면 이미지
+      // 최적화 캐시가 한동안 옛 사진을 계속 내준다. 그래서 4구에 새 번호를
+      // 줬다. 짝은 번호가 아니라 여기 적힌 image 가 정한다.
       {
         id: "keyring",
         name: "키링",
         options: [
           { name: "십자가형", price: 3000, image: img("keyring-0") },
-          { name: "키캡", price: 6000, image: img("keyring-1") },
+          { name: "키캡(4구)", price: 6000, image: img("keyring-4") },
+          { name: "키캡(1구)", price: 8000, image: img("keyring-1") },
           { name: "하트 JESUS", price: 6000, image: img("keyring-2") },
           { name: "NFC", price: 8000, image: img("keyring-3") },
         ],
@@ -130,6 +140,14 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
           { name: "성령의 열매", price: 1000, image: img("postcard-2") },
           { name: "JESUS IS WITH US", price: 1000, image: img("postcard-3") },
           { name: "커피 든 예수님", price: 1000, image: img("postcard-4") },
+        ],
+      },
+      {
+        id: "tteokmemo",
+        name: "떡메모지",
+        options: [
+          { name: "산 위에서", price: 1000, image: img("tteokmemo-0") },
+          { name: "이사야 41:10", price: 1000, image: img("tteokmemo-1") },
         ],
       },
       {
