@@ -51,6 +51,24 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
     slug: "goods",
     name: "굿즈",
     items: [
+      // 70주년 기념 제작품 셋을 한 묶음으로 둔다. 셋이라 타일 한 줄에 꼭
+      // 맞고, 값이 다른 굿즈와 자릿수가 달라 목록 끝에 두면 못 보고
+      // 지나치기 쉬워 앞에 세웠다. 수량·구성 안내는 물품마다 다르지만
+      // 꼬리말은 묶음에 하나라 둘을 한 줄에 적는다.
+      {
+        id: "dreamgoods",
+        name: "드림교회 굿즈",
+        options: [
+          { name: "레고", price: 50000, image: img("lego-0") },
+          {
+            name: "십자가 미니어처",
+            price: 200000,
+            image: img("cross-0"),
+          },
+          { name: "도자기 오브제", price: 100000, image: img("ceramic-0") },
+        ],
+        note: "레고 100개 한정 · 도자기 전자초 포함",
+      },
       {
         id: "tincase",
         name: "틴케이스",
@@ -155,6 +173,11 @@ export const GOODS_CATALOG: readonly GoodsCategory[] = [
           },
           { name: "FOREVER", price: 1500, image: img("photocard-2") },
         ],
+      },
+      {
+        id: "ecobag",
+        name: "에코백",
+        options: [{ name: "에코백", price: 6000, image: img("ecobag-0") }],
       },
     ],
   },
