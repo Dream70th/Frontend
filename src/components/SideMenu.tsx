@@ -23,6 +23,7 @@ export function SideMenu({
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
+  const [isConfirming, setIsConfirming] = useState(false);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -176,14 +177,21 @@ export function SideMenu({
           </figcaption>
         </figure>
 
+        {/* 익명 세션이라 한 번 나가면 그 도장판으로 돌아올 길이 없다.
+            전에는 구글 계정이 있어 다시 로그인하면 그만이었다. 되돌릴 수
+            없는 단추를 한 번에 눌리게 두지 않는다. */}
         <button
           type="button"
-          onClick={handleSignOut}
+          onClick={() =>
+            isConfirming ? handleSignOut() : setIsConfirming(true)
+          }
           disabled={isSigningOut}
           tabIndex={isOpen ? 0 : -1}
           className="text-trail-orange border-t border-black/10 px-5 py-4 text-right text-[15px] font-bold disabled:opacity-60"
         >
-          로그아웃
+          {isConfirming
+            ? "받은 도장이 사라집니다 · 한 번 더 누르면 처음으로"
+            : "처음부터 다시 시작"}
         </button>
       </nav>
     </>

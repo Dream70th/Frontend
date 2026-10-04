@@ -6,7 +6,6 @@ import { AppViewport } from "@/components/AppViewport";
 import { ArtStage } from "@/components/ArtStage";
 import { LoginButton } from "@/components/LoginButton";
 import { TrailButton } from "@/components/TrailButton";
-import { InAppBrowserBanner } from "@/components/InAppBrowserBanner";
 import { GoodsCatalog } from "@/components/GoodsCatalog";
 import { hasCatalog } from "@/lib/goods-catalog";
 import { yPct } from "@/lib/design-coordinates";
@@ -27,7 +26,7 @@ const BUTTON_FLOOR = `calc(var(--app-height) - var(--art-top) - ${BUTTON_COLUMN_
  * 있는 데다 transform까지 걸려 있어서, 그 안에 넣으면 inset-0이 화면이 아니라
  * 그림을 기준으로 잡혀 시트가 엉뚱한 곳에 깔린다.
  */
-export function LoginScreen({ isInAppBrowser }: { isInAppBrowser: boolean }) {
+export function LoginScreen() {
   const [showCatalog, setShowCatalog] = useState(false);
 
   return (
@@ -46,8 +45,6 @@ export function LoginScreen({ isInAppBrowser }: { isInAppBrowser: boolean }) {
           className="object-fill"
         />
 
-        {isInAppBrowser && <InAppBrowserBanner />}
-
         {/* Only the top of the column is pinned to the poster; the buttons are
             spaced in CSS px below it, so the gap between them is identical on
             every screen rather than shrinking with the artwork.
@@ -64,7 +61,7 @@ export function LoginScreen({ isInAppBrowser }: { isInAppBrowser: boolean }) {
           className="absolute left-1/2 flex w-max -translate-x-1/2 flex-col gap-3"
           style={{ top: `min(${yPct(673)}, ${BUTTON_FLOOR})` }}
         >
-          <LoginButton isInAppBrowser={isInAppBrowser} />
+          <LoginButton />
 
           {/* 로그인 버튼과 같은 간판 모양. 포스터의 호수(어두운 면) 위라
               베이지 바탕이 잘 읽히고, 오른쪽 카라비너와도 겹치지 않는다. */}
